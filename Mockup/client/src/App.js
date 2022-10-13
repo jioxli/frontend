@@ -1,13 +1,21 @@
 import React, { Fragment } from "react"
-import './App.css';
+import { 
+  BrowserRouter as Router,
+  Routes as Switch,
+  Route,
+  Link 
+} from "react-router-dom"
 
-//components
+import './App.css';
+import Tournaments from './components/Tournaments'
+import Teams from './components/Teams'
+
 import DatabaseExample from "./frontend/file"
 import logo from './img/nashorSticker.png';
 
 function App() {
-
   return (
+    <Router>
       <Fragment>
         <body class="scroll-top"
         data-bs-spy="scroll"
@@ -16,10 +24,10 @@ function App() {
         <div class="navbar">
           <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
             <div class= "container">
-              <a href="#home" class = "navbar-brand">
+            <Link to="/" class = "navbar-brand">
               <img src={logo} width="75" height="75" class="d-inline-block align-top" alt="" />
-                NashorStats
-              </a>
+              NashorStats
+              </Link>
               <button class= "navbar-toggler"
                 data-bs-toggle= "collapse"
                 data-bs-target= "#nav-collapse">
@@ -27,17 +35,21 @@ function App() {
               </button>
               <div id = "nav-collapse" class="collapse navbar-collapse">
                 <div class="navbar-nav ms-auto">
-                  <a href="#mission-target" class = "nav-link"> Home</a>
-                  <a href="#why-target" class = "nav-link"> Tournament </a>
-                  <a href="#skills-target" class = "nav-link"> Teams </a>
-                  <a href="#inspiration-target" class = "nav-link"> Players </a>
-                  <a href="#contact-target" class = "nav-link"> Games </a>
-                  <a href=".frontend/contact.html" class = "nav-link"> Games </a>
+                  <li> <Link to="/tournaments" class = "nav-link"> Tournament </Link></li>
+                  <li> <Link to="/teams" class = "nav-link"> Teams </Link></li>
+                  <li> <Link to="/players" class = "nav-link"> Players </Link></li>
+                  <li> <Link to="/games" class = "nav-link"> Games </Link></li>
+                  <li> <Link to="/contact" class = "nav-link"> Contact </Link></li>
                 </div>
               </div>
             </div>
           </nav>
         </div>
+        <hr />
+        <Switch>
+        <Route path='/tournaments' element={<Tournaments />} />
+        <Route path='/teams' element={<Teams />} />
+        </Switch>
         <div className="container">
           <div class="database">
             <h1> Database </h1>
@@ -53,6 +65,7 @@ function App() {
         </div>
       </body>
     </Fragment>
+    </Router>
   );
 
 }
