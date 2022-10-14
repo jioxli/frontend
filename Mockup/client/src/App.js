@@ -9,8 +9,8 @@ import {
 import './App.css';
 import Tournaments from './components/Tournaments'
 import Teams from './components/Teams'
+import Players from "./components/Players"
 
-import DatabaseExample from "./frontend/file"
 import logo from './img/nashorSticker.png';
 
 function App() {
@@ -46,14 +46,13 @@ function App() {
           </nav>
         </div>
         <hr />
-        <Switch>
-        <Route path='/tournaments' element={<Tournaments />} />
-        <Route path='/teams' element={<Teams />} />
-        </Switch>
         <div className="container">
           <div class="database">
-            <h1> Database </h1>
-            <DatabaseExample />
+            <Switch>
+              <Route path='/tournaments' element={<Tournaments />} />
+              <Route path='/teams' element={<Teams />} />
+              <Route path='/players' element={<Players />} />
+            </Switch>
           </div>
         </div>
         <div class="footer">

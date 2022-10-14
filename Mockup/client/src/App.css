@@ -8,6 +8,15 @@ body {
   font-size: 20px;
   margin-bottom: 15vh;
 }
+
+#filter-container > *{
+  display: inline-block;
+}
+
+h1 {
+  margin-top: -2%;
+  margin-bottom: 2%;
+}
 .navbar-brand {
   font-size: 50px;
 }
@@ -24,3 +33,4 @@ body {
 .search {
   padding: 5vh;
 }
+
