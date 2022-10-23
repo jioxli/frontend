@@ -1,83 +1,127 @@
-import React, { Fragment, useRef } from "react"
-import './Players.css';
+import React, { Fragment, useRef, useState } from "react"
+import ReactDOM from "react-dom"
 
 import {
     Form,
 } from "react-router-dom"
 
 const SearchResults = {
-    typeFilter: ['ign', 'team', 'region', 'position', 'kda']
+    typeFilter: [],
+    thirdFilterRefs: []
 }
 
-const Players = () => {
-    const ignRef = useRef();
-    const teamRef = useRef();
-    const regionRef = useRef();
-    const positionRef = useRef();
-    const kdaRef = useRef();
 
-    function togglePType(typeOfPlace) {
-        let checked = { typeOfPlace }.current;
-        let unchecked = { typeOfPlace }.current;
+const Players = () => {
+
+    const[holder1, setHolder1] = useState('Select First Filter')
+    const[holder2, setHolder2] = useState('Select Second Filter')
+    const[holder3, setHolder3] = useState('Select Third Filter')
+
+    const ignPlus = useRef(0);
+    const ignMinus = useRef(0);
+    const teamPlus = useRef(0);
+    const teamMinus = useRef(0);
+    const regionPlus = useRef(0);
+    const regionMinus = useRef(0);
+    const positionPlus = useRef(0);
+    const positionMinus = useRef(0);
+    const kdaPlus = useRef(0);
+    const kdaMinus = useRef(0);
+
+    const findResults = () => {
+        console.log("find my results")
+    }
+
+    const toggleFilter = (typeOfPlace, minusRef, plusRef) => {
+        console.log("hello world")
         let index = SearchResults.typeFilter.findIndex(type => type == typeOfPlace);
 
-        console.log(index);
-        if (index < 0) {
-            checked.classList.add("show");
-            checked.classList.remove("hide");
-            unchecked.classList.remove("show");
-            unchecked.classList.add("hide");
+        if (index >= 0) {
+            console.log("isTrue")
+            SearchResults.typeFilter.splice(index, 1)
+            SearchResults.thirdFilterRefs.splice(0, 2)
+            minusRef.current.style.visibility = "visible"
+            plusRef.current.style.visibility = "hidden"
+            updateSearch()
         } else {
-            checked.classList.add("hide");
-            checked.classList.remove("show");
-            unchecked.classList.remove("hide");
-            unchecked.classList.add("show");
+            if(SearchResults.typeFilter.length == 3) {
+                SearchResults.typeFilter.splice(2, 1)
+                SearchResults.thirdFilterRefs[0].current.style.visibility = "visible"
+                SearchResults.thirdFilterRefs[1].current.style.visibility = "hidden"
+                SearchResults.thirdFilterRefs.splice(0, 2)
+            }
+            SearchResults.typeFilter.push(typeOfPlace)
+            if(SearchResults.typeFilter.length == 3) {
+                SearchResults.thirdFilterRefs.push(minusRef)
+                SearchResults.thirdFilterRefs.push(plusRef)
+            }
+            minusRef.current.style.visibility = "hidden"
+            plusRef.current.style.visibility = "visible"
+            updateSearch()
         }
-
+        console.log(SearchResults.typeFilter)
         return
+    }
+
+    const updateSearch = () => {
+        if(SearchResults.typeFilter.length == 0) {
+            setHolder1('Select First Filter')
+        } else if (SearchResults.typeFilter.length == 1) {
+            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
+            setHolder2('Select Second Filter')
+        } else if (SearchResults.typeFilter.length == 2) {
+            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
+            setHolder2(`Enter ${SearchResults.typeFilter[1]}`)
+            setHolder3('Select Third Filter')
+        } else {
+            setHolder3(`Enter ${SearchResults.typeFilter[2]}`)
+        }
     }
 
     return (
         <Fragment>
             <h1> Players </h1>
-            <div classname="search" >
+            <div classname="search-components" >
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder1}/>
+                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder2}/>
+                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder3}/>
                     <div id="filter-container" class="hidden">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="type-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Filter
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="type-dropdown">
-                                <li><a ref={ignRef} class="dropdown-item" onClick={togglePType('ign')}>
-                                    <i class="player bi bi-plus-square-fill"></i>
-                                    <i class="unchecked-ign hide bi bi-square"></i><span>IGN</span></a>
+                            <b>Select up to 3</b>
+                                <li><a class="dropdown-item" onClick= {() => toggleFilter("IGN", ignMinus, ignPlus)}>
+                                    <i ref={ignPlus} class= "bi-plus-square-fill"></i>
+                                    <i ref={ignMinus} class= "unchecked bi bi-square"></i><span>IGN</span></a>
                                 </li>
 
-                                <li><a class="dropdown-item" onclick="togglePType('team')">
-                                    <i class="team bi bi-plus-square-fill"></i>
-                                    <i class="unchecked-team hide bi bi-square"></i><span>Team</span></a>
+                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Team", teamMinus, teamPlus)}>
+                                    <i ref={teamPlus} class="bi-plus-square-fill"></i>
+                                    <i ref={teamMinus} class="unchecked bi bi-square"></i><span>Team</span></a>
                                 </li>
 
-                                <li><a class="dropdown-item" onclick="togglePType('region')">
-                                    <i class="region bi bi-plus-square-fill"></i>
-                                    <i class="unchecked-region hide bi bi-square"></i> <span>Region</span></a>
+                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Region", regionMinus, regionPlus)}>
+                                    <i ref={regionPlus} class="bi-plus-square-fill"></i>
+                                    <i ref={regionMinus} class="unchecked bi bi-square"></i> <span>Region</span></a>
                                 </li>
 
-                                <li><a class="dropdown-item" onclick="togglePType('position')">
-                                    <i class="game bi bi-plus-square-fill"></i>
-                                    <i class="unchecked-position hide bi bi-square"></i> <span>Position</span></a>
+                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
+                                    <i ref={positionPlus} class="bi-plus-square-fill"></i>
+                                    <i ref={positionMinus}class="unchecked bi bi-square"></i> <span>Position</span></a>
                                 </li>
 
-                                <li><a class="dropdown-item" onclick="togglePType('kda')">
-                                    <i class="tournament bi bi-plus-square-fill"></i>
-                                    <i class="unchecked-kda hide bi bi-square"></i> <span>KDA</span></a>
+                                <li><a class="dropdown-item" onClick= {() => toggleFilter("KDA", kdaMinus, kdaPlus)}>
+                                    <i ref={kdaPlus} class="bi-plus-square-fill"></i>
+                                    <i ref={kdaMinus} class="unchecked bi bi-square"></i> <span>KDA</span></a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" >
+                        <button class="btn btn-outline-secondary" type="button" onClick = {() => findResults()}>
                             <i class="bi bi-search"></i>
                         </button>
                     </div>

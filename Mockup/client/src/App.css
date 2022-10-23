@@ -34,3 +34,36 @@ h1 {
   padding: 5vh;
 }
 
+.search-components {
+  border-radius: 20px;
+  padding: 50vh;
+}
+
+.bi-plus-square-fill {
+visibility: hidden;
+margin-right: -16px;
+}
+
+button#type-dropdown:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+ul.dropdown-menu.show {
+  top: 5px !important;
+  padding: 10px;
+}
+
+.dropdown-item span {
+margin-left: 10px;
+}
+
+.show {
+display: inline;
+}
+.hide {
+display: none;
+}
+
+
