@@ -1,7 +1,10 @@
 body {
   background: linear-gradient(#292929, #000000);
   color: white;
-  overflow: hidden;
+}
+
+.players {
+  padding: 10px;
 }
 
 .navbar {
@@ -22,7 +25,7 @@ h1 {
   font-size: 50px;
 }
 
-.database {
+.animateNavbar {
   text-align: center;
   padding: 5vh;
 }

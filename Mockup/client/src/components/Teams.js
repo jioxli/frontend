@@ -15,15 +15,16 @@ const Teams = () =>  {
     };
     
     return (
-    <motion.div 
-    initial={"out"} 
-    animate={"in"} 
-    exit={"out"}
-    variants={pageTransition}
-    >
-        <h2>Teams</h2>
-        This is the teams page
-    </motion.div>
-)};
+        <motion.div 
+        initial={"out"} 
+        animate={"in"} 
+        exit={"out"}
+        variants={pageTransition}
+        >
+            <h2>Teams</h2>
+            This is the teams page
+        </motion.div>
+    )
+};
 
 export default Teams;

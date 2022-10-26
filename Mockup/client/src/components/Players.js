@@ -1,9 +1,10 @@
 import React, { Fragment, useRef, useState } from "react"
 
+//you will need to run npm-install framer-motion
 import {motion} from "framer-motion"
 
 const SearchResults = {
-    typeFilter: [],
+    typeFilter: [],         //**IMPORTANT** User's filters
     thirdFilterRefs: []
 }
 
@@ -13,6 +14,9 @@ const Players = () => {
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
+    const[input1, setInput1] = useState('')
+    const[input2, setInput2] = useState('')
+    const[input3, setInput3] = useState('')
 
     const ignPlus = useRef(0);
     const ignMinus = useRef(0);
@@ -27,7 +31,22 @@ const Players = () => {
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        console.log("find my results")
+        let inputArr = []       //**IMPORTANT User's imputs
+        if(SearchResults.typeFilter.length == 0) {
+            return
+        } else if(SearchResults.typeFilter.length == 1) {
+            inputArr.push(input1);
+        } else if(SearchResults.typeFilter.length == 2) {
+            inputArr.push(input1);
+            inputArr.push(input2);
+        } else {
+            inputArr.push(input1);
+            inputArr.push(input2);
+            inputArr.push(input3);
+        }
+        console.log(inputArr)
+        
+        
     }
 
     //Handles the filters and the dropdown box
@@ -98,11 +117,33 @@ const Players = () => {
             exit={"out"}
             variants={pageTransition}
             >
+                <div class="players">
                 <h1> Players </h1>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder1}/>
-                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder2}/>
-                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder3}/>
+                        <input 
+                            type="text" 
+                            value = {input1} 
+                            class="form-control" 
+                            aria-label="Recipient's username" 
+                            aria-describedby="basic-addon2" 
+                            placeholder={holder1} 
+                            onChange={e => setInput1(e.target.value)}/>
+                        <input 
+                            type="text" 
+                            value = {input2} 
+                            class="form-control" 
+                            aria-label="Recipient's username" 
+                            aria-describedby="basic-addon2" 
+                            placeholder={holder2} 
+                            onChange={e => setInput2(e.target.value)}/>
+                        <input 
+                            type="text" 
+                            value = {input3} 
+                            class="form-control" 
+                            aria-label="Recipient's username" 
+                            aria-describedby="basic-addon2" 
+                            placeholder={holder3} 
+                            onChange={e => setInput3(e.target.value)}/>
                         <div id="filter-container" class="hidden">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="type-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -190,6 +231,7 @@ const Players = () => {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </motion.div>
         </Fragment>
     )

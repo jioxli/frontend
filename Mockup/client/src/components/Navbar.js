@@ -1,10 +1,9 @@
 import React, { Fragment } from "react"
 import { 
-  BrowserRouter as Router,
   Link 
 } from "react-router-dom"
 
-import AnimatedRoutes from './AnimatedRoutes'
+import AnimatedNavbar from './AnimatedNavbar'
 
 import logo from './img/nashorSticker.png';
 
@@ -25,10 +24,7 @@ const NavBar = () => {
               </button>
               <div id = "nav-collapse" class="collapse navbar-collapse">
                 <div class="navbar-nav ms-auto">
-                  <li> <Link to="/tournaments" class = "nav-link"> Tournament </Link></li>
-                  <li> <Link to="/teams" class = "nav-link"> Teams </Link></li>
-                  <li> <Link to="/players" class = "nav-link"> Players </Link></li>
-                  <li> <Link to="/games" class = "nav-link"> Games </Link></li>
+                  <li> <Link to="/databases" class = "nav-link"> Databases </Link></li>
                   <li> <Link to="/contact" class = "nav-link"> Contact </Link></li>
                 </div>
               </div>
@@ -37,8 +33,8 @@ const NavBar = () => {
         </div>
         <hr />
         <div className="container">
-          <div class="database">
-            <AnimatedRoutes />
+          <div class="animateNavbar">
+            <AnimatedNavbar />
           </div>
         </div>
     </Fragment>
