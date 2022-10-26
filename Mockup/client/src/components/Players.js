@@ -1,9 +1,6 @@
 import React, { Fragment, useRef, useState } from "react"
-import ReactDOM from "react-dom"
 
-import {
-    Form,
-} from "react-router-dom"
+import {motion} from "framer-motion"
 
 const SearchResults = {
     typeFilter: [],
@@ -28,10 +25,12 @@ const Players = () => {
     const kdaPlus = useRef(0);
     const kdaMinus = useRef(0);
 
+    //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
         console.log("find my results")
     }
 
+    //Handles the filters and the dropdown box
     const toggleFilter = (typeOfPlace, minusRef, plusRef) => {
         console.log("hello world")
         let index = SearchResults.typeFilter.findIndex(type => type == typeOfPlace);
@@ -63,6 +62,7 @@ const Players = () => {
         return
     }
 
+    //appends the search bars based on dropdown functions
     const updateSearch = () => {
         if(SearchResults.typeFilter.length == 0) {
             setHolder1('Select First Filter')
@@ -78,91 +78,119 @@ const Players = () => {
         }
     }
 
+    const pageTransition = {
+        in: {
+            opacity: 1,
+            y: 0
+        },
+        out: {
+            opacity: 0,
+            y: "100%"
+        }
+    };
+
+    //HTML 
     return (
         <Fragment>
-            <h1> Players </h1>
-            <div classname="search-components" >
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder1}/>
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder2}/>
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder3}/>
-                    <div id="filter-container" class="hidden">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="type-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Filter
+            <motion.div 
+            initial={"out"} 
+            animate={"in"} 
+            exit={"out"}
+            variants={pageTransition}
+            >
+                <h1> Players </h1>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder1}/>
+                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder2}/>
+                        <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder={holder3}/>
+                        <div id="filter-container" class="hidden">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="type-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Filter
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="type-dropdown">
+                                <b>Select up to 3</b>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("IGN", ignMinus, ignPlus)}>
+                                        <i ref={ignPlus} class= "bi-plus-square-fill"></i>
+                                        <i ref={ignMinus} class= "unchecked bi bi-square"></i><span>IGN</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Team", teamMinus, teamPlus)}>
+                                        <i ref={teamPlus} class="bi-plus-square-fill"></i>
+                                        <i ref={teamMinus} class="unchecked bi bi-square"></i><span>Team</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Region", regionMinus, regionPlus)}>
+                                        <i ref={regionPlus} class="bi-plus-square-fill"></i>
+                                        <i ref={regionMinus} class="unchecked bi bi-square"></i> <span>Region</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
+                                        <i ref={positionPlus} class="bi-plus-square-fill"></i>
+                                        <i ref={positionMinus}class="unchecked bi bi-square"></i> <span>Position</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("KDA", kdaMinus, kdaPlus)}>
+                                        <i ref={kdaPlus} class="bi-plus-square-fill"></i>
+                                        <i ref={kdaMinus} class="unchecked bi bi-square"></i> <span>KDA</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onClick = {() => findResults()}>
+                                <i class="bi bi-search"></i>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="type-dropdown">
-                            <b>Select up to 3</b>
-                                <li><a class="dropdown-item" onClick= {() => toggleFilter("IGN", ignMinus, ignPlus)}>
-                                    <i ref={ignPlus} class= "bi-plus-square-fill"></i>
-                                    <i ref={ignMinus} class= "unchecked bi bi-square"></i><span>IGN</span></a>
-                                </li>
-
-                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Team", teamMinus, teamPlus)}>
-                                    <i ref={teamPlus} class="bi-plus-square-fill"></i>
-                                    <i ref={teamMinus} class="unchecked bi bi-square"></i><span>Team</span></a>
-                                </li>
-
-                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Region", regionMinus, regionPlus)}>
-                                    <i ref={regionPlus} class="bi-plus-square-fill"></i>
-                                    <i ref={regionMinus} class="unchecked bi bi-square"></i> <span>Region</span></a>
-                                </li>
-
-                                <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
-                                    <i ref={positionPlus} class="bi-plus-square-fill"></i>
-                                    <i ref={positionMinus}class="unchecked bi bi-square"></i> <span>Position</span></a>
-                                </li>
-
-                                <li><a class="dropdown-item" onClick= {() => toggleFilter("KDA", kdaMinus, kdaPlus)}>
-                                    <i ref={kdaPlus} class="bi-plus-square-fill"></i>
-                                    <i ref={kdaMinus} class="unchecked bi bi-square"></i> <span>KDA</span></a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onClick = {() => findResults()}>
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <table class="table table-sm table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">IGN</th>
-                        <th scope="col">Team</th>
-                        <th scope="col">Position</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Doublelift</td>
-                        <td>Retired</td>
-                        <td>ADC</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Faker</td>
-                        <td>T1</td>
-                        <td>Mid</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Core JJ</td>
-                        <td>Team Liquid</td>
-                        <td>Support</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Canyon</td>
-                        <td>Damwon Kia</td>
-                        <td>Jungle</td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table table-sm table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">IGN</th>
+                            <th scope="col">Team</th>
+                            <th scope="col">Region</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">KDA</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Doublelift</td>
+                            <td>Retired</td>
+                            <td>LCS</td>
+                            <td>ADC</td>
+                            <td>0.1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Faker</td>
+                            <td>T1</td>
+                            <td>LCK</td>
+                            <td>Mid</td>
+                            <td>10.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Core JJ</td>
+                            <td>Team Liquid</td>
+                            <td>LCS</td>
+                            <td>Support</td>
+                            <td>3.2</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Canyon</td>
+                            <td>Damwon Kia</td>
+                            <td>LCK</td>
+                            <td>Jungle</td>
+                            <td>5.2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </motion.div>
         </Fragment>
     )
 };

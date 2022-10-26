@@ -1,6 +1,7 @@
 body {
   background: linear-gradient(#292929, #000000);
   color: white;
+  overflow: hidden;
 }
 
 .navbar {
@@ -30,15 +31,6 @@ h1 {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.search {
-  padding: 5vh;
-}
-
-.search-components {
-  border-radius: 20px;
-  padding: 50vh;
-}
-
 .bi-plus-square-fill {
 visibility: hidden;
 margin-right: -16px;
@@ -57,13 +49,6 @@ ul.dropdown-menu.show {
 
 .dropdown-item span {
 margin-left: 10px;
-}
-
-.show {
-display: inline;
-}
-.hide {
-display: none;
 }
 
 
