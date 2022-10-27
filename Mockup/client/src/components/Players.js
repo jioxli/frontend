@@ -8,6 +8,7 @@ from "react"
 import {motion} from "framer-motion"
 
 const SearchResults = {
+    constArr: ["IGN", "Team", "Region", "Position", "KDA"],
     typeFilter: [],         //**IMPORTANT** User's filters
     thirdFilterRefs: []
 }
@@ -21,6 +22,8 @@ const Players = () => {
     const[input1, setInput1] = useState('')
     const[input2, setInput2] = useState('')
     const[input3, setInput3] = useState('')
+    const[textClass2, setTextClass2] = useState('form-control hide')
+    const[textClass3, setTextClass3] = useState('form-control hide')
 
     const ignPlus = useRef(0);
     const ignMinus = useRef(0);
@@ -54,17 +57,16 @@ const Players = () => {
     }
 
     //Handles the filters and the dropdown box
-    const toggleFilter = (typeOfPlace, minusRef, plusRef) => {
-        console.log("hello world")
-        let index = SearchResults.typeFilter.findIndex(type => type == typeOfPlace);
+    const toggleFilter = (myFilter, minusRef, plusRef) => {
+        let index = SearchResults.typeFilter.findIndex(type => type == myFilter);
+        let prvLen = SearchResults.typeFilter.length
+        let newIndex = SearchResults.constArr.findIndex(type => type == myFilter);
 
         if (index >= 0) {
-            console.log("isTrue")
             SearchResults.typeFilter.splice(index, 1)
             SearchResults.thirdFilterRefs.splice(0, 2)
             minusRef.current.style.visibility = "visible"
             plusRef.current.style.visibility = "hidden"
-            updateSearch()
         } else {
             if(SearchResults.typeFilter.length == 3) {
                 SearchResults.typeFilter.splice(2, 1)
@@ -72,32 +74,77 @@ const Players = () => {
                 SearchResults.thirdFilterRefs[1].current.style.visibility = "hidden"
                 SearchResults.thirdFilterRefs.splice(0, 2)
             }
-            SearchResults.typeFilter.push(typeOfPlace)
+            SearchResults.typeFilter.push(myFilter)
             if(SearchResults.typeFilter.length == 3) {
                 SearchResults.thirdFilterRefs.push(minusRef)
                 SearchResults.thirdFilterRefs.push(plusRef)
             }
             minusRef.current.style.visibility = "hidden"
             plusRef.current.style.visibility = "visible"
-            updateSearch()
         }
+        updateSearch(prvLen, newIndex)
         console.log(SearchResults.typeFilter)
         return
     }
 
     //appends the search bars based on dropdown functions
-    const updateSearch = () => {
+    const updateSearch = (prvLen, newIndex) => {
+        let matches = 0;
+        let middleIndex = 0
+
         if(SearchResults.typeFilter.length == 0) {
             setHolder1('Select First Filter')
-        } else if (SearchResults.typeFilter.length == 1) {
-            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
-            setHolder2('Select Second Filter')
-        } else if (SearchResults.typeFilter.length == 2) {
-            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
-            setHolder2(`Enter ${SearchResults.typeFilter[1]}`)
-            setHolder3('Select Third Filter')
-        } else {
-            setHolder3(`Enter ${SearchResults.typeFilter[2]}`)
+            return
+        }
+        for(let i = 0; i < SearchResults.constArr.length; i++) {
+            for(let j = 0; j < SearchResults.typeFilter.length; j++) {
+                if (SearchResults.constArr[i] == SearchResults.typeFilter[j]) {
+                    matches += 1
+                    if(matches == 1) {
+                        setHolder1(`Enter ${SearchResults.typeFilter[j]}`)
+                        setHolder2('Select Second Filter')
+                        setTextClass2('form-control hide')
+                        if((prvLen == 2 || prvLen == 3) && SearchResults.typeFilter.length != 3) {
+                            if(newIndex < i) {
+                                setInput1(input2)
+                            }
+                            if(prvLen == 2) {
+                                setInput2("")
+                            }
+                        }
+                    } else if(matches == 2) {
+                        setHolder2(`Enter ${SearchResults.typeFilter[j]}`)
+                        setTextClass2('form-control')
+                        setTextClass3('form-control hide')
+                        if(prvLen == 3) {
+                            if(newIndex < i) {
+                                setInput2(input3)
+                            }
+                            setInput3("")
+                        }
+                        if(prvLen == 1) {
+                            if(newIndex < i) {
+                                setInput2(input1)
+                                setInput1("")  
+                            }
+                        } if(prvLen == 2) {
+                            middleIndex = i
+                        }
+                    }else {
+                        setHolder3('Select Third Filter')
+                        setHolder3(`Enter ${SearchResults.typeFilter[j]}`)
+                        setTextClass3('form-control')
+                        if(newIndex < i) {
+                            setInput3(input2)
+                            setInput2("")
+                        } if(middleIndex > newIndex) {
+                            setInput2(input1)
+                            setInput1("")
+                        }
+                        return
+                    }
+                }
+            }
         }
     }
     
@@ -135,7 +182,7 @@ const Players = () => {
                         <input 
                             type="text" 
                             value = {input2} 
-                            class="form-control" 
+                            class= {textClass2} 
                             aria-label="Recipient's username" 
                             aria-describedby="basic-addon2" 
                             placeholder={holder2} 
@@ -143,7 +190,7 @@ const Players = () => {
                         <input 
                             type="text" 
                             value = {input3} 
-                            class="form-control" 
+                            class={textClass3}
                             aria-label="Recipient's username" 
                             aria-describedby="basic-addon2" 
                             placeholder={holder3} 
