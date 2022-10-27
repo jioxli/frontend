@@ -7,6 +7,10 @@ body {
   padding: 10px;
 }
 
+.database-buttons {
+  padding: 10px;
+}
+
 .navbar {
   text-align: center;
   font-size: 20px;
@@ -25,7 +29,7 @@ h1 {
   font-size: 50px;
 }
 
-.animateNavbar {
+.animateRefs {
   text-align: center;
   padding: 5vh;
 }
@@ -55,3 +59,10 @@ margin-left: 10px;
 }
 
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: inline;
+}

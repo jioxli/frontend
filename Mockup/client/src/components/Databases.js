@@ -24,28 +24,30 @@ const Databases = () => {
         initial={"out"} 
         animate={"in"} 
         exit={"out"}
-        variants={pageTransition}
+        variants={"in"}
         >
             <Fragment>
                 <h2>Databases</h2>
                 Last Updated: October 31, 2022
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <Link to="/databases/tournaments"> Tournament </Link>
-                        </div>
-                        <div class="col-sm">
-                            <Link to="/databases/teams"> Teams </Link>
-                        </div>
-                        <div class="col-sm">
-                            <Link to="/databases/players"> Players </Link>
+                <div class="database-buttons">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <Link class="btn btn-dark" to="/databases/tournaments"> Tournament </Link>
+                            </div>
+                            <div class="col-sm">
+                                <Link class="btn btn-dark" to="/databases/teams"> Teams </Link>
+                            </div>
+                            <div class="col-sm">
+                                <Link class="btn btn-dark" to="/databases/players"> Players </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr />
-                <div className="container">
-                    <div class="database">
-                        <Outlet />
+                    <hr />
+                    <div className="container">
+                        <div class="database">
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
             </Fragment>

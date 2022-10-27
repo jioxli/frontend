@@ -1,4 +1,8 @@
-import React, { Fragment, useRef, useState } from "react"
+import React, { 
+    Fragment, 
+    useRef, 
+    useState } 
+from "react"
 
 //you will need to run npm-install framer-motion
 import {motion} from "framer-motion"
@@ -46,7 +50,7 @@ const Players = () => {
         }
         console.log(inputArr)
         
-        
+
     }
 
     //Handles the filters and the dropdown box
@@ -96,7 +100,7 @@ const Players = () => {
             setHolder3(`Enter ${SearchResults.typeFilter[2]}`)
         }
     }
-
+    
     const pageTransition = {
         in: {
             opacity: 1,
