@@ -8,7 +8,6 @@ from "react"
 import {motion} from "framer-motion"
 
 const SearchResults = {
-    constArr: ["IGN", "Team", "Region", "Position", "KDA"],
     typeFilter: [],         //**IMPORTANT** User's filters
     thirdFilterRefs: []
 }
@@ -38,12 +37,12 @@ const Players = () => {
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []       //**IMPORTANT User's imputs
-        if(SearchResults.typeFilter.length == 0) {
+        let inputArr = ['Players']       //**IMPORTANT User's inputs
+        if(SearchResults.typeFilter.length === 0) {
             return
-        } else if(SearchResults.typeFilter.length == 1) {
+        } else if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
-        } else if(SearchResults.typeFilter.length == 2) {
+        } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
             inputArr.push(input2);
         } else {
@@ -52,15 +51,12 @@ const Players = () => {
             inputArr.push(input3);
         }
         console.log(inputArr)
-        
-
     }
 
     //Handles the filters and the dropdown box
     const toggleFilter = (myFilter, minusRef, plusRef) => {
-        let index = SearchResults.typeFilter.findIndex(type => type == myFilter);
+        let index = SearchResults.typeFilter.findIndex(type => type === myFilter);
         let prvLen = SearchResults.typeFilter.length
-        let newIndex = SearchResults.constArr.findIndex(type => type == myFilter);
 
         if (index >= 0) {
             SearchResults.typeFilter.splice(index, 1)
@@ -68,84 +64,64 @@ const Players = () => {
             minusRef.current.style.visibility = "visible"
             plusRef.current.style.visibility = "hidden"
         } else {
-            if(SearchResults.typeFilter.length == 3) {
+            if(SearchResults.typeFilter.length === 3) {
                 SearchResults.typeFilter.splice(2, 1)
                 SearchResults.thirdFilterRefs[0].current.style.visibility = "visible"
                 SearchResults.thirdFilterRefs[1].current.style.visibility = "hidden"
                 SearchResults.thirdFilterRefs.splice(0, 2)
             }
             SearchResults.typeFilter.push(myFilter)
-            if(SearchResults.typeFilter.length == 3) {
+            if(SearchResults.typeFilter.length === 3) {
                 SearchResults.thirdFilterRefs.push(minusRef)
                 SearchResults.thirdFilterRefs.push(plusRef)
             }
             minusRef.current.style.visibility = "hidden"
             plusRef.current.style.visibility = "visible"
         }
-        updateSearch(prvLen, newIndex)
+        updateSearch(prvLen, index)
         console.log(SearchResults.typeFilter)
         return
     }
 
     //appends the search bars based on dropdown functions
-    const updateSearch = (prvLen, newIndex) => {
-        let matches = 0;
-        let middleIndex = 0
-
-        if(SearchResults.typeFilter.length == 0) {
+    const updateSearch = (prvLen, index) => {
+        if(SearchResults.typeFilter.length === 0) {
             setHolder1('Select First Filter')
             return
-        }
-        for(let i = 0; i < SearchResults.constArr.length; i++) {
-            for(let j = 0; j < SearchResults.typeFilter.length; j++) {
-                if (SearchResults.constArr[i] == SearchResults.typeFilter[j]) {
-                    matches += 1
-                    if(matches == 1) {
-                        setHolder1(`Enter ${SearchResults.typeFilter[j]}`)
-                        setHolder2('Select Second Filter')
-                        setTextClass2('form-control hide')
-                        if((prvLen == 2 || prvLen == 3) && SearchResults.typeFilter.length != 3) {
-                            if(newIndex < i) {
-                                setInput1(input2)
-                            }
-                            if(prvLen == 2) {
-                                setInput2("")
-                            }
-                        }
-                    } else if(matches == 2) {
-                        setHolder2(`Enter ${SearchResults.typeFilter[j]}`)
-                        setTextClass2('form-control')
-                        setTextClass3('form-control hide')
-                        if(prvLen == 3) {
-                            if(newIndex < i) {
-                                setInput2(input3)
-                            }
-                            setInput3("")
-                        }
-                        if(prvLen == 1) {
-                            if(newIndex < i) {
-                                setInput2(input1)
-                                setInput1("")  
-                            }
-                        } if(prvLen == 2) {
-                            middleIndex = i
-                        }
-                    }else {
-                        setHolder3('Select Third Filter')
-                        setHolder3(`Enter ${SearchResults.typeFilter[j]}`)
-                        setTextClass3('form-control')
-                        if(newIndex < i) {
-                            setInput3(input2)
-                            setInput2("")
-                        } if(middleIndex > newIndex) {
-                            setInput2(input1)
-                            setInput1("")
-                        }
-                        return
-                    }
+        } else if(SearchResults.typeFilter.length === 1) {
+            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
+            setHolder2('Select Second Filter')
+            if(prvLen === 2) {
+                if(index === 0) {
+                    setInput1(input2)
                 }
+                setInput1(input2)
+                setInput2("")
+                setTextClass2('form-control hide')
+                return
             }
+        } else if(SearchResults.typeFilter.length === 2) {
+            setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
+            setHolder2(`Enter ${SearchResults.typeFilter[1]}`)
+            setHolder3('Select Third Filter')
+            if(prvLen === 3) {
+                if(index === 0) {
+                    setInput1(input2)
+                    setInput2(input3)
+                }else if(index === 1) {
+                    setInput2(input3)
+                }
+                setInput3("")
+                setTextClass3('form-control hide')
+                return
+            }
+            setTextClass2('form-control')
+        } else {
+            setHolder3('Select Third Filter')
+            setHolder3(`Enter ${SearchResults.typeFilter[2]}`)
+            setTextClass3('form-control')
         }
+        return
     }
     
     const pageTransition = {
@@ -168,6 +144,7 @@ const Players = () => {
             exit={"out"}
             variants={pageTransition}
             >
+                {/*Search bars */}
                 <div class="players">
                 <h1> Players </h1>
                     <div class="input-group mb-3">
@@ -195,6 +172,7 @@ const Players = () => {
                             aria-describedby="basic-addon2" 
                             placeholder={holder3} 
                             onChange={e => setInput3(e.target.value)}/>
+                        {/*Dropdown */}
                         <div id="filter-container" class="hidden">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="type-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -229,12 +207,14 @@ const Players = () => {
                                 </ul>
                             </div>
                         </div>
+                        {/*Search Button*/}
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button" onClick = {() => findResults()}>
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
                     </div>
+                {/*Table */}
                 <table class="table table-sm table-dark">
                     <thead>
                         <tr>

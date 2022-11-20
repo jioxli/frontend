@@ -1,7 +1,7 @@
 import React from 'react';
 import {motion} from "framer-motion"
 
-const Information = () => {
+const AdminUsers = () => {
 
     const pageTransition = {
         in: {
@@ -21,10 +21,10 @@ const Information = () => {
         exit={"out"}
         variants={pageTransition}
         >
-            <h2>Information</h2>
-            This is the page for Information
+            <h2> Users </h2>
+            This is the page for Admin Users
         </motion.div>
     )
 };
 
-export default Information;
+export default AdminUsers;

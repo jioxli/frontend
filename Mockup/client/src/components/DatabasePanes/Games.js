@@ -1,7 +1,7 @@
 import React from 'react';
 import {motion} from "framer-motion"
 
-const Information = () => {
+const Games = () => {
 
     const pageTransition = {
         in: {
@@ -9,7 +9,7 @@ const Information = () => {
             y: 0
         },
         out: {
-            opacity: 1,
+            opacity: 0,
             y: "100%"
         }
     };
@@ -21,10 +21,10 @@ const Information = () => {
         exit={"out"}
         variants={pageTransition}
         >
-            <h2>Information</h2>
-            This is the page for Information
+            <h2>Games</h2>
+            This is the page for games
         </motion.div>
     )
 };
 
-export default Information;
+export default Games;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {motion} from "framer-motion"
 
-const Login = () => {
+const AdminTeams = () => {
 
     const pageTransition = {
         in: {
@@ -9,7 +9,7 @@ const Login = () => {
             y: 0
         },
         out: {
-            opacity: 0,
+            opacity: 1,
             y: "100%"
         }
     };
@@ -21,10 +21,10 @@ const Login = () => {
         exit={"out"}
         variants={pageTransition}
         >
-            <h2>Login</h2>
-            This is the page for Login
+            <h2> Teams </h2>
+            This is the page for Admin Teams
         </motion.div>
     )
 };
 
-export default Login;
+export default AdminTeams;

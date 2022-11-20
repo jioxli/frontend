@@ -7,15 +7,27 @@ body {
   padding: 10px;
   text-align: center;
 }
-
 .database-buttons {
   padding: 10px;
+}
+.input-group-append-search {
+  padding-right: 8px;
 }
 
 .navbar {
   text-align: center;
   font-size: 20px;
   margin-bottom: 15vh;
+}
+
+.loginPage {
+  margin-right: 35vh;
+  margin-left: 35vh;
+  overflow: hidden;
+}
+
+.container-account {
+  margin: 15px;
 }
 
 #filter-container > *{
@@ -44,7 +56,7 @@ visibility: hidden;
 margin-right: -16px;
 }
 
-button#type-dropdown:hover {
+button#type-dropown:hover {
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -59,6 +71,9 @@ ul.dropdown-menu.show {
 margin-left: 10px;
 }
 
+.modal-backdrop {
+  z-index: -1;
+}
 
 .hide {
   display: none;
@@ -66,4 +81,12 @@ margin-left: 10px;
 
 .show {
   display: inline;
+}
+
+@media only screen 
+and (max-device-width : 990px) {
+  .loginPage {
+    margin-right: 5vh;
+    margin-left: 5vh;
+  }
 }
