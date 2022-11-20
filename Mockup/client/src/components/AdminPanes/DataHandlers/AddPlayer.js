@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 
 const AddPlayer = () => {
     
+  let playerStr = " Add Player"
     return (
         <Fragment data-backdrop="false">
             {/*Edit button*/}
@@ -12,7 +13,7 @@ const AddPlayer = () => {
             data-bs-target="#myModal"
           >
             <i class="bi bi-file-earmark-plus-fill"></i>
-            Add Player
+            {playerStr}
           </button>
     
           {/*Modal*/}
@@ -23,7 +24,7 @@ const AddPlayer = () => {
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">Edit Players</h4>
+                  <h4 class="modal-title">Add Players</h4>
                   <button
                     type="button"
                     class="close"

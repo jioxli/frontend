@@ -74,6 +74,9 @@ margin-left: 10px;
 .modal-backdrop {
   z-index: -1;
 }
+.modal::-webkit-scrollbar {
+  display: none;
+}
 
 .hide {
   display: none;

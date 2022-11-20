@@ -22,6 +22,7 @@ const Login = () => {
     const login = () => {
         let adminAccount = ["jioxli", "Teemo"]
         let userAccount = ["Jarmo", "Ahri"]
+        setIncorrectClass('hide')
         if(usernameInput === adminAccount[0] && passwordInput === adminAccount[1]) {
             console.log("admin")
             Account.username = usernameInput
