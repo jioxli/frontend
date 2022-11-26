@@ -1,5 +1,6 @@
 import React from 'react';
 import {motion} from "framer-motion"
+import ImportTeam from './DataHandlers/ImportTeam';
 
 const AdminTeams = () => {
 
@@ -22,7 +23,7 @@ const AdminTeams = () => {
         variants={pageTransition}
         >
             <h2> Teams </h2>
-            This is the page for Admin Teams
+            <ImportTeam/>
         </motion.div>
     )
 };
