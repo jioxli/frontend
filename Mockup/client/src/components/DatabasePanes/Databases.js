@@ -56,7 +56,7 @@ const Databases = () => {
         >
             <Fragment>
                 <h2>Databases</h2>
-                Last Updated: November 27, 2022
+                Last Updated: November 30, 2022
                 {/*Buttons for each database*/}
                 <div class="database-buttons">
                     <div class="container">
