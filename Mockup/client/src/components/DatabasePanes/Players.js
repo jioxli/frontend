@@ -41,7 +41,7 @@ const Players = () => {
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
         let inputArr = []       //**IMPORTANT User's inputs
-        let filterArr = ['Players']              //**IMPORTANT, User's Filters */
+        let filterArr = ['Player']              //**IMPORTANT, User's Filters */
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
