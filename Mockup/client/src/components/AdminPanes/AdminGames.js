@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {motion} from "framer-motion"
+import ImportGame from './DataHandlers/ImportGame';
 
 const AdminGames = () => {
 
@@ -15,6 +16,7 @@ const AdminGames = () => {
     };
     
     return (
+        <Fragment>
         <motion.div 
         initial={"out"} 
         animate={"in"} 
@@ -22,8 +24,9 @@ const AdminGames = () => {
         variants={pageTransition}
         >
             <h2> Games </h2>
-            This is the page for Admin Games
+        <ImportGame/>
         </motion.div>
+        </Fragment>
     )
 };
 
