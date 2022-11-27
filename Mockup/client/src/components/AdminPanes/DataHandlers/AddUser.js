@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 const AddUser = () => {
     
-  let buttonStr = " Add User"   //need the space (looks better lol)
+  let buttonStr = " Add Account"   //need the space (looks better lol)
     return (
         <Fragment data-backdrop="false">
             {/*Add button */}
