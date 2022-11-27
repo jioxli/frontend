@@ -17,6 +17,7 @@ const NavBar = () => {
 
     const[loginNav, setLoginNav] = useState('nav-link')
     const[infoNav, setInfoNav] = useState('nav-link')
+    const[statNav, setStatNav] = useState('nav-link')
     const[dataNav, setDataNav] = useState('nav-link')
     const[contactNav, setContactNav] = useState('nav-link')
     const[accountInfoNav, setAccountInfoNav] = useState('nav-link hide')
@@ -52,7 +53,10 @@ const NavBar = () => {
         setInfoNav('nav-link')
       } else if (myNav.currentNav === 3) {
         setDataNav('nav-link')
-      } else {
+      } else if (myNav.currentNav == 5) {
+        setStatNav('nav-link')
+      }
+      else {
         setContactNav('nav-link')
       }
       myNav.currentNav = column
@@ -68,6 +72,8 @@ const NavBar = () => {
         setDataNav('nav-link active')
       } else if (column === 4) {
         setContactNav('nav-link active')
+      } else if (column == 5) {
+        setStatNav('nav-link active')
       }
 
     }
@@ -92,6 +98,7 @@ const NavBar = () => {
                   <li> <Link to="/loginPage" class = {loginNav} onClick={() => updateNavbar(1)}> Login </Link></li>
                   <li> <Link to="/accountinfo" class = {accountInfoNav} onClick={() => updateNavbar(1)}> <font color = {color}> {username} </font> </Link></li>
                   <li> <Link to="/information" class = {infoNav} onClick={() => updateNavbar(2)}> Information </Link></li>
+                  <li> <Link to="/teamstats" class = {statNav} onClick={() => updateNavbar(5)}> Team Stats </Link></li>
                   <li> <Link to="/databases" class = {dataNav} onClick={() => updateNavbar(3)}> Databases </Link></li>
                   <li> <Link to="/contact" class = {contactNav} onClick={() => updateNavbar(4)}> Contact </Link></li>
                 </div>
