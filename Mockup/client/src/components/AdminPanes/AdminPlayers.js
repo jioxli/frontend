@@ -24,22 +24,32 @@ const AdminPlayers = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
+    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
+    const[incorrectClass, setIncorrectClass] = useState('hide')
 
+    const pidPlus = useRef(0);
+    const pidMinus = useRef(0);
     const ignPlus = useRef(0);
     const ignMinus = useRef(0);
+    const tidPlus = useRef(0);
+    const tidMinus = useRef(0);
     const teamPlus = useRef(0);
     const teamMinus = useRef(0);
-    const regionPlus = useRef(0);
-    const regionMinus = useRef(0);
     const positionPlus = useRef(0);
     const positionMinus = useRef(0);
     const kdaPlus = useRef(0);
     const kdaMinus = useRef(0);
+    const kpPlus = useRef(0);
+    const kpMinus = useRef(0);
+    const gd10Plus = useRef(0);
+    const gd10Minus = useRef(0);
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = ['Players']       //**IMPORTANT User's inputs
+        let inputArr = []                               //**IMPORTANT User's inputs
+        let filterArr = ['Admin', 'Player']              //**IMPORTANT, User's Filters 
         if(SearchResults.typeFilter.length === 0) {
+            setIncorrectClass('show');
             return
         } else if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
@@ -51,7 +61,24 @@ const AdminPlayers = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
+        setIncorrectClass('hide');
+        //handling if some inputs are empty
+        let curIndex = 0
+        let originalLen = inputArr.length
+        for(let i = 0; i < originalLen; i++) {
+            if(inputArr[curIndex] != '') {
+                filterArr.push(SearchResults.typeFilter[i].toLowerCase())
+                curIndex += 1
+            } else {
+                inputArr.splice(curIndex, 1);
+            }
+        }
         console.log(inputArr)
+        console.log(filterArr)
+        if(curIndex === 0) {
+            setIncorrectClass('show')
+            setIncorrect('Please enter values in the text boxes')
+        }
     }
 
     //Handles the filters and the dropdown box
@@ -144,8 +171,9 @@ const AdminPlayers = () => {
             exit={"out"}
             variants={pageTransition}
             >
-                <div class="players">
+                <div class="data">
                 <h1> Players </h1>
+                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -178,9 +206,20 @@ const AdminPlayers = () => {
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="type-dropdown">
                                 <b>Select up to 3</b>
+                                
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("PID", pidMinus, pidPlus)}>
+                                        <i ref={pidPlus} class= "bi-plus-square-fill"></i>
+                                        <i ref={pidMinus} class= "unchecked bi bi-square"></i><span>PID</span></a>
+                                    </li>
+
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("IGN", ignMinus, ignPlus)}>
                                         <i ref={ignPlus} class= "bi-plus-square-fill"></i>
                                         <i ref={ignMinus} class= "unchecked bi bi-square"></i><span>IGN</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("TID", tidMinus, tidPlus)}>
+                                        <i ref={tidPlus} class= "bi-plus-square-fill"></i>
+                                        <i ref={tidMinus} class= "unchecked bi bi-square"></i><span>TID</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Team", teamMinus, teamPlus)}>
@@ -188,19 +227,24 @@ const AdminPlayers = () => {
                                         <i ref={teamMinus} class="unchecked bi bi-square"></i><span>Team</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Region", regionMinus, regionPlus)}>
-                                        <i ref={regionPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={regionMinus} class="unchecked bi bi-square"></i> <span>Region</span></a>
-                                    </li>
-
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
                                         <i ref={positionPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={positionMinus}class="unchecked bi bi-square"></i> <span>Position</span></a>
+                                        <i ref={positionMinus}class="unchecked bi bi-square"></i><span>Position</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("KDA", kdaMinus, kdaPlus)}>
                                         <i ref={kdaPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={kdaMinus} class="unchecked bi bi-square"></i> <span>KDA</span></a>
+                                        <i ref={kdaMinus} class="unchecked bi bi-square"></i><span>KDA</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("KP", kpMinus, kpPlus)}>
+                                        <i ref={kpPlus} class="bi-plus-square-fill"></i>
+                                        <i ref={kpMinus} class="unchecked bi bi-square"></i><span>KP</span></a>
+                                    </li>
+
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("GD10", gd10Minus, gd10Plus)}>
+                                        <i ref={gd10Plus} class="bi-plus-square-fill"></i>
+                                        <i ref={gd10Minus} class="unchecked bi bi-square"></i><span>GD10</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -217,12 +261,14 @@ const AdminPlayers = () => {
                 <table class="table table-sm table-dark">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">PID</th>
                             <th scope="col">IGN</th>
-                            <th scope="col">Team</th>
-                            <th scope="col">Region</th>
+                            <th scope="col">TID</th>
+                            <th scope="col">Team</th>            
                             <th scope="col">Position</th>
                             <th scope="col">KDA</th>
+                            <th scope="col">KP</th>
+                            <th scope="col">GD10</th> 
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -231,40 +277,48 @@ const AdminPlayers = () => {
                         <tr>
                             <th scope="row">1</th>
                             <td>Doublelift</td>
+                            <td>11</td>
                             <td>Retired</td>
                             <td>LCS</td>
                             <td>ADC</td>
                             <td>0.1</td>
+                            <td>-1000</td>
                             <td><EditPlayer style={{opacity:1}}/></td>
                             <td><button className = "btn btn-danger" > Delete </button></td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td>Faker</td>
+                            <td>10</td>
                             <td>T1</td>
                             <td>LCK</td>
                             <td>Mid</td>
                             <td>10.0</td>
+                            <td>1000</td>
                             <td><EditPlayer style={{opacity:1}}/></td>
                             <td><button className = "btn btn-danger" > Delete </button></td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
                             <td>Core JJ</td>
+                            <td>6</td>
                             <td>Team Liquid</td>
                             <td>LCS</td>
                             <td>Support</td>
                             <td>3.2</td>
+                            <td>420</td>
                             <td><EditPlayer style={{opacity:1}}/></td>
                             <td><button className = "btn btn-danger" > Delete </button></td>
                         </tr>
                         <tr>
                             <th scope="row">4</th>
                             <td>Canyon</td>
+                            <td>3</td>
                             <td>Damwon Kia</td>
                             <td>LCK</td>
                             <td>Jungle</td>
                             <td>5.2</td>
+                            <td>1342</td>
                             <td><EditPlayer style={{opacity:1}}/></td>
                             <td><button className = "btn btn-danger" > Delete </button></td>
                         </tr>

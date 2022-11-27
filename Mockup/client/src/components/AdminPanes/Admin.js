@@ -72,7 +72,7 @@ const Admin = () => {
                     <div class="container">
                         <div class="row">
                         <div class="col-sm">
-                                <Link class={usersButton} to="/admin/users" onClick={() => changeDatabase(0)}> Users </Link>
+                                <Link class={usersButton} to="/admin/users" onClick={() => changeDatabase(0)}> Accounts </Link>
                             </div>
                             <div class="col-sm">
                                 <Link class={gamesButton} to="/admin/games" onClick={() => changeDatabase(1)}> Games </Link>

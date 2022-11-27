@@ -61,8 +61,8 @@ const Games = () => {
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []       //**IMPORTANT User's inputs
-        let filterArr = ['Players']              //**IMPORTANT, User's Filters */
+        let inputArr = []                   //**IMPORTANT User's inputs
+        let filterArr = ['User', 'Game']              //**IMPORTANT, User's Filters */
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
@@ -227,6 +227,11 @@ const Games = () => {
                                         <i ref={datePlus} class= "bi-plus-square-fill"></i>
                                         <i ref={dateMinus} class= "unchecked bi bi-square"></i><span>Date</span></a>
                                     </li>
+                                    
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Date", dateMinus, datePlus)}>
+                                        <i ref={datePlus} class= "bi-plus-square-fill"></i>
+                                        <i ref={dateMinus} class= "unchecked bi bi-square"></i><span>Date</span></a>
+                                    </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("PlayerName", playerNameMinus, playerNamePlus)}>
                                         <i ref={playerNamePlus} class="bi-plus-square-fill"></i>
@@ -235,52 +240,52 @@ const Games = () => {
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("TeamName", teamNameMinus, teamNamePlus)}>
                                         <i ref={teamNamePlus} class="bi-plus-square-fill"></i>
-                                        <i ref={teamNameMinus}class="unchecked bi bi-square"></i> <span>Team Name</span></a>
+                                        <i ref={teamNameMinus}class="unchecked bi bi-square"></i><span>Team Name</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Side", sideMinus, sidePlus)}>
                                         <i ref={sidePlus} class="bi-plus-square-fill"></i>
-                                        <i ref={sideMinus} class="unchecked bi bi-square"></i> <span>Side</span></a>
+                                        <i ref={sideMinus} class="unchecked bi bi-square"></i><span>Side</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
                                         <i ref={positionPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={positionMinus} class="unchecked bi bi-square"></i> <span>Position</span></a>
+                                        <i ref={positionMinus} class="unchecked bi bi-square"></i><span>Position</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Champion", championMinus, championPlus)}>
                                         <i ref={championPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={championMinus} class="unchecked bi bi-square"></i> <span>Champion</span></a>
+                                        <i ref={championMinus} class="unchecked bi bi-square"></i><span>Champion</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Result", resultMinus, resultPlus)}>
                                         <i ref={resultPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={resultMinus} class="unchecked bi bi-square"></i> <span> Result </span></a>
+                                        <i ref={resultMinus} class="unchecked bi bi-square"></i><span>Result</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Kills", killsMinus, killsPlus)}>
                                         <i ref={killsPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={killsMinus} class="unchecked bi bi-square"></i> <span>Kills</span></a>
+                                        <i ref={killsMinus} class="unchecked bi bi-square"></i><span>Kills</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Deaths", deathsMinus, deathsPlus)}>
                                         <i ref={deathsPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={deathsMinus} class="unchecked bi bi-square"></i> <span>Deaths</span></a>
+                                        <i ref={deathsMinus} class="unchecked bi bi-square"></i><span>Deaths</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Assists", assistsMinus, assistsPlus)}>
                                         <i ref={assistsPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={assistsMinus} class="unchecked bi bi-square"></i> <span>Assists</span></a>
+                                        <i ref={assistsMinus} class="unchecked bi bi-square"></i><span>Assists</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("FirstDragon", fDragMinus, fDragPlus)}>
                                         <i ref={fDragPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fDragMinus} class="unchecked bi bi-square"></i> <span>First Dragon</span></a>
+                                        <i ref={fDragMinus} class="unchecked bi bi-square"></i><span>First Dragon</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("FirstHerald", fHeraldMinus, fHeraldPlus)}>
                                         <i ref={fHeraldPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fHeraldMinus} class="unchecked bi bi-square"></i> <span>First Herald</span></a>
+                                        <i ref={fHeraldMinus} class="unchecked bi bi-square"></i><span>First Herald</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("FirstTower", fTowerMinus, fTowerPlus)}>
@@ -290,17 +295,17 @@ const Games = () => {
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("GoldDiffAt15", gd15Minus, gd15Plus)}>
                                         <i ref={gd15Plus} class="bi-plus-square-fill"></i>
-                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i> <span>GD15</span></a>
+                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i><span>GD15</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("XPDiffAt15", xpd15Minus, xpd15Plus)}>
                                         <i ref={xpd15Plus} class="bi-plus-square-fill"></i>
-                                        <i ref={xpd15Minus} class="unchecked bi bi-square"></i> <span>XPD15</span></a>
+                                        <i ref={xpd15Minus} class="unchecked bi bi-square"></i><span>XPD15</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("gamelength", lengthMinus, lengthPlus)}>
                                         <i ref={lengthPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={lengthMinus} class="unchecked bi bi-square"></i> <span>Game Length</span></a>
+                                        <i ref={lengthMinus} class="unchecked bi bi-square"></i><span>Game Length</span></a>
                                     </li>
 
 
@@ -315,7 +320,7 @@ const Games = () => {
                         </div>
                     </div>
                 {/*Table */}
-                <div class="table-responsive-sm">
+                <div class="table-responsive">
                     <table id ="Player_Table" class="table table-dark table-striped table sm" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -335,10 +340,10 @@ const Games = () => {
                                 <th scope="col">GD15</th> 
                                 <th scope="col">XPD15</th> 
                                 <th scope="col">Length</th> 
-
                             </tr>
                         </thead>
                         <tbody>
+                            {/* Body data goes here*/}
                         </tbody>
                     </table>
                 </div>

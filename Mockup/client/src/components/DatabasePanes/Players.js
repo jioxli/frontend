@@ -40,8 +40,8 @@ const Players = () => {
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []       //**IMPORTANT User's inputs
-        let filterArr = ['Player']              //**IMPORTANT, User's Filters */
+        let inputArr = []                               //**IMPORTANT User's inputs
+        let filterArr = ['User', 'Player']              //**IMPORTANT, User's Filters 
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
@@ -214,22 +214,22 @@ const Players = () => {
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Position", positionMinus, positionPlus)}>
                                         <i ref={positionPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={positionMinus}class="unchecked bi bi-square"></i> <span>Position</span></a>
+                                        <i ref={positionMinus}class="unchecked bi bi-square"></i><span>Position</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("KDA", kdaMinus, kdaPlus)}>
                                         <i ref={kdaPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={kdaMinus} class="unchecked bi bi-square"></i> <span>KDA</span></a>
+                                        <i ref={kdaMinus} class="unchecked bi bi-square"></i><span>KDA</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("KP", kpMinus, kpPlus)}>
                                         <i ref={kpPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={kpMinus} class="unchecked bi bi-square"></i> <span>KP</span></a>
+                                        <i ref={kpMinus} class="unchecked bi bi-square"></i><span>KP</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("GD10", gd10Minus, gd10Plus)}>
                                         <i ref={gd10Plus} class="bi-plus-square-fill"></i>
-                                        <i ref={gd10Minus} class="unchecked bi bi-square"></i> <span>GD10</span></a>
+                                        <i ref={gd10Minus} class="unchecked bi bi-square"></i><span>GD10</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -254,6 +254,7 @@ const Players = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        {/* Body data goes here*/}
                     </tbody>
                 </table>
                 </div>

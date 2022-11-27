@@ -1,29 +1,29 @@
 import React, { Fragment } from "react";
 
-const EditPlayer = () => {
-    
+const EditUser = () => {
+
     return (
         <Fragment data-backdrop="false">
-            {/*Edit Button */}
+            {/*Edit button*/}
           <button
             type="button"
             class="btn btn-primary"
             data-bs-toggle="modal"
-            data-bs-target="#pEditModal"
+            data-bs-target="#tEditModal"
           >
+            <i class="bi bi-file-earmark-plus-fill"></i>
             Edit
           </button>
     
-          {/* Modal*/}
+          {/*Modal*/}
           <div
             class="modal"
-            id="pEditModal"
+            id="tEditModal"
           >
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                    {/*idk why this title doesnt appear */}
-                    <h4 class="modal-title">Edit Player</h4>
+                  <h4 class="modal-title">Edit Player</h4>
                   <button
                     type="button"
                     class="close"
@@ -36,25 +36,23 @@ const EditPlayer = () => {
                 <div class="modal-body">
                 <input 
                     type="text" 
-                    placeholder="IGN"
+                    placeholder="AID"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Team"
+                    placeholder="Username"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Region"
+                    placeholder="Password"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Position"
+                    placeholder="isAdmin"
                     className="form-control" />
-                <input 
-                    type="text" 
-                    placeholder="KDA"
-                    className="form-control" />
+                
                 </div>
+                
     
                 <div class="modal-footer">
                   <button
@@ -79,4 +77,4 @@ const EditPlayer = () => {
       );
 };
 
-export default EditPlayer;
+export default EditUser;

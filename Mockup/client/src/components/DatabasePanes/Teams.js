@@ -45,8 +45,8 @@ const Teams = () => {
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []       //**IMPORTANT User's inputs
-        let filterArr = ['Players']              //**IMPORTANT, User's Filters */
+        let inputArr = []                            //**IMPORTANT User's inputs
+        let filterArr = ['User', 'Team']             //**IMPORTANT, User's Filters
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
@@ -219,32 +219,32 @@ const Teams = () => {
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Wins", winsMinus, winsPlus)}>
                                         <i ref={winsPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={winsMinus}class="unchecked bi bi-square"></i> <span>Wins</span></a>
+                                        <i ref={winsMinus}class="unchecked bi bi-square"></i><span>Wins</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Losses", lossesMinus, lossesPlus)}>
                                         <i ref={lossesPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={lossesMinus} class="unchecked bi bi-square"></i> <span>Losses</span></a>
+                                        <i ref={lossesMinus} class="unchecked bi bi-square"></i><span>Losses</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("First Dragon", fDragonMinus, fDragonPlus)}>
                                         <i ref={fDragonPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fDragonMinus} class="unchecked bi bi-square"></i> <span>First Dragon</span></a>
+                                        <i ref={fDragonMinus} class="unchecked bi bi-square"></i><span>First Dragon</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("First Turret", fTurretMinus, fTurretPlus)}>
                                         <i ref={fTurretPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fTurretMinus} class="unchecked bi bi-square"></i> <span>First Turret</span></a>
+                                        <i ref={fTurretMinus} class="unchecked bi bi-square"></i><span>First Turret</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("First Herald", fHeraldMinus, fHeraldPlus)}>
                                         <i ref={fHeraldPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fHeraldMinus} class="unchecked bi bi-square"></i> <span>First Herald</span></a>
+                                        <i ref={fHeraldMinus} class="unchecked bi bi-square"></i><span>First Herald</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("GD15", gd15Minus, gd15Plus)}>
                                         <i ref={gd15Plus} class="bi-plus-square-fill"></i>
-                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i> <span>GD10</span></a>
+                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i><span>GD10</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -271,6 +271,7 @@ const Teams = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        {/* Body data goes here*/}
                     </tbody>
                 </table>
                 </div>

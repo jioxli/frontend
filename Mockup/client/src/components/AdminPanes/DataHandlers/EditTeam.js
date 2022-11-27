@@ -1,29 +1,29 @@
 import React, { Fragment } from "react";
 
-const EditPlayer = () => {
-    
+const EditTeam = () => {
+
     return (
         <Fragment data-backdrop="false">
-            {/*Edit Button */}
+            {/*Edit button*/}
           <button
             type="button"
             class="btn btn-primary"
             data-bs-toggle="modal"
-            data-bs-target="#pEditModal"
+            data-bs-target="#tAddModal"
           >
+            <i class="bi bi-file-earmark-plus-fill"></i>
             Edit
           </button>
     
-          {/* Modal*/}
+          {/*Modal*/}
           <div
             class="modal"
-            id="pEditModal"
+            id="tAddModal"
           >
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                    {/*idk why this title doesnt appear */}
-                    <h4 class="modal-title">Edit Player</h4>
+                  <h4 class="modal-title">Edit Player</h4>
                   <button
                     type="button"
                     class="close"
@@ -36,25 +36,42 @@ const EditPlayer = () => {
                 <div class="modal-body">
                 <input 
                     type="text" 
-                    placeholder="IGN"
+                    placeholder="TID"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Team"
+                    placeholder="name"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Region"
+                    placeholder="Games"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="Position"
+                    placeholder="Wins"
                     className="form-control" />
                 <input 
                     type="text" 
-                    placeholder="KDA"
+                    placeholder="Losses"
+                    className="form-control" />
+                <input 
+                    type="text" 
+                    placeholder="First Dragon"
+                    className="form-control" />
+                <input 
+                    type="text" 
+                    placeholder="First Turret"
+                    className="form-control" />
+                <input 
+                    type="text" 
+                    placeholder="First Herald"
+                    className="form-control" />
+                <input 
+                    type="text" 
+                    placeholder="GD15"
                     className="form-control" />
                 </div>
+                
     
                 <div class="modal-footer">
                   <button
@@ -79,4 +96,4 @@ const EditPlayer = () => {
       );
 };
 
-export default EditPlayer;
+export default EditTeam;
