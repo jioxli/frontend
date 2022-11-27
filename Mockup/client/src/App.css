@@ -3,6 +3,12 @@ body {
   color: white;
 }
 
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .players {
   padding: 10px;
   text-align: center;
