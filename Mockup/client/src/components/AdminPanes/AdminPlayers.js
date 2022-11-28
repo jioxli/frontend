@@ -8,6 +8,7 @@ from "react"
 import {motion} from "framer-motion"
 import EditPlayer from './DataHandlers/EditPlayers';
 import AddPlayer from "./DataHandlers/AddPlayer";
+import ImportPlayer from "./DataHandlers/ImportPlayer";
 
 const SearchResults = {
     typeFilter: [],         //**IMPORTANT** User's filters
@@ -165,6 +166,7 @@ const AdminPlayers = () => {
     //HTML 
     return (
         <Fragment>
+            <ImportPlayer/>
             <motion.div 
             initial={"out"} 
             animate={"in"} 

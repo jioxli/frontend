@@ -3,6 +3,11 @@ body {
   color: white;
 }
 
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .data {
   padding: 10px;
   text-align: center;

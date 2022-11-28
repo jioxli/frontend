@@ -6,6 +6,7 @@ from "react"
 
 //you will need to run npm-install framer-motion
 import {motion} from "framer-motion"
+import ImportGame from './DataHandlers/ImportGame';
 
 const SearchResults = {
     typeFilter: [],         //**IMPORTANT** User's filters
@@ -194,6 +195,7 @@ const AdminGames = () => {
             exit={"out"}
             variants={pageTransition}
             >
+                <ImportGame/>
                 {/*Search bars */}
                 <div class="players">
                 <h1> Games </h1>

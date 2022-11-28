@@ -6,6 +6,7 @@ from "react"
 
 //you will need to run npm-install framer-motion
 import {motion} from "framer-motion"
+import ImportTeam from './DataHandlers/ImportTeam';
 
 import AddTeam from "./DataHandlers/AddTeam";
 
@@ -174,6 +175,7 @@ const AdminTeams = () => {
             exit={"out"}
             variants={pageTransition}
             >
+                <ImportTeam />
                 {/*Search bars */}
                 <div class="data">
                 <h1> Teams </h1>

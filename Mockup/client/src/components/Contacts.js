@@ -26,8 +26,8 @@ const Contacts = () => {
                 <div class="card text-white bg-dark mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Ian Oxley</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p class="card-text">The most poggiest programmer I've ever met.</p>
+                    <a href="https://ianoxleybiopage.com/" target="blank_" class="btn btn-primary">Website</a>
                 </div>
                 </div>
             </div>

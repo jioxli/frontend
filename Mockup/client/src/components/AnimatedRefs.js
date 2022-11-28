@@ -5,6 +5,7 @@ import {
   useLocation
 } from "react-router-dom"
 
+import Home from "./Home"
 import NavBar from "./Navbar"
 import Databases from "./DatabasePanes/Databases"
 import Games from "./DatabasePanes/Games"
@@ -13,6 +14,7 @@ import Players from "./DatabasePanes/Players"
 import Contacts from "./Contacts"
 import Login from "./AccountPanes/Login"
 import Information from "./Information"
+import TeamStats from "./TeamStats"
 import Register from "./AccountPanes/Register"
 import LoginPage from "./AccountPanes/LoginPage"
 import AccountInfo from "./AccountPanes/AccountInfo"
@@ -32,6 +34,7 @@ const AnimatedRefs = () => {
     <AnimatePresence exitBeforeEnter>
       <Switch location={location} key={location.pathname}>
         <Route path='/navbar' element={<NavBar />}  />
+        <Route path='/' element={<Home />}  />
         <Route path='/loginPage' element={<LoginPage />} >
           <Route index element={<Login />} />
           <Route path='login' element={<Login />} />
@@ -46,6 +49,7 @@ const AnimatedRefs = () => {
           <Route path='players' element={<AdminPlayers />} />
         </Route>
         <Route path='/information' element={<Information />} />
+        <Route path='/teamstats' element={<TeamStats />} />
         <Route path='/databases' element={<Databases />} >
           <Route index element={<Games />} />
           <Route path='games' element={<Games />} />
