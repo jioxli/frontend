@@ -1,5 +1,6 @@
 import React, { 
     Fragment, 
+    useEffect, 
     useRef, 
     useState } 
 from "react"
@@ -13,6 +14,8 @@ const SearchResults = {
 }
 
 const Players = () => {
+
+    const [players, setPlayers] = useState([])
 
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
@@ -39,9 +42,20 @@ const Players = () => {
     const gd10Minus = useRef(0);
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
+    const getPlayers = async(filterArr, inputArr) => {
+        try {
+            const body = {filterArr, inputArr}
+            const response = await fetch("http://localhost:5000/players")
+            const jsonData = await response.json();
+            setPlayers(jsonData)
+
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
     const findResults = () => {
         let inputArr = []                               //**IMPORTANT User's inputs
-        let filterArr = ['User', 'Player']              //**IMPORTANT, User's Filters 
+        let filterArr = []              //**IMPORTANT, User's Filters 
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
@@ -152,9 +166,13 @@ const Players = () => {
         },
         out: {
             opacity: 0,
-            y: "100%"
+            y: "20%"
         }
     };
+
+    useEffect(() => {
+        getPlayers([], [])
+    },[])
 
     //HTML 
     return (
@@ -254,7 +272,16 @@ const Players = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Body data goes here*/}
+                        {players.map(player => (
+                            <tr key={player.pid}>
+                                <td>{player.ign}</td>
+                                <td>{player.team}</td>
+                                <td>{player.position}</td>
+                                <td>{player.kda}</td>
+                                <td>{player.kp}</td>
+                                <td>{player.gd10}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>

@@ -8,6 +8,9 @@ from "react"
 import {motion} from "framer-motion"
 import ImportGame from './DataHandlers/ImportGame';
 
+import AddGame from "./DataHandlers/AddGame";
+import EditGame from "./DataHandlers/EditGame"
+
 const SearchResults = {
     typeFilter: [],         //**IMPORTANT** User's filters
     thirdFilterRefs: []
@@ -71,7 +74,7 @@ const AdminGames = () => {
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
         let inputArr = []                   //**IMPORTANT User's inputs
-        let filterArr = ['User', 'Game']              //**IMPORTANT, User's Filters */
+        let filterArr = ['Admin', 'Game']              //**IMPORTANT, User's Filters */
         if(SearchResults.typeFilter.length === 0) {
             setIncorrectClass('show');
             return
@@ -338,10 +341,13 @@ const AdminGames = () => {
                             </div>
                         </div>
                         {/*Search Button*/}
-                        <div class="input-group-append">
+                        <div class="input-group-append-search">
                             <button class="btn btn-outline-secondary" type="button" onClick = {() => findResults()}>
                                 <i class="bi bi-search"></i>
                             </button>
+                        </div>
+                        <div class="input-group-append">
+                            <AddGame />
                         </div>
                     </div>
                 {/*Table */}

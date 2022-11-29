@@ -167,7 +167,7 @@ const AdminUsers = () => {
             >
                 {/*Search bars */}
                 <div class="data">
-                <h1> Teams </h1>
+                <h1> Users </h1>
                 <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
