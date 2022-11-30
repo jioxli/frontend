@@ -57,6 +57,7 @@ const Databases = () => {
             <Fragment>
                 <h2>Databases</h2>
                 Last Updated: November 30, 2022
+                <p>Press the search button with no inputs to refresh the data</p>
                 {/*Buttons for each database*/}
                 <div class="database-buttons">
                     <div class="container">

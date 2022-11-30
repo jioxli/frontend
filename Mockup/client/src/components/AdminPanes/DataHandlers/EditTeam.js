@@ -11,7 +11,6 @@ const EditTeam = () => {
             data-bs-toggle="modal"
             data-bs-target="#tAddModal"
           >
-            <i class="bi bi-file-earmark-plus-fill"></i>
             Edit
           </button>
     

@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect
+} 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -15,6 +17,9 @@ const SearchResults = {
 
 const Games = () => {
 
+    const [games, setGames] = useState([])
+    const [originalGames, setOriginalGames] = useState([])
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -23,15 +28,13 @@ const Games = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const datePlus = useRef(0);
     const dateMinus = useRef(0);
     const playerNamePlus = useRef(0);
     const playerNameMinus = useRef(0);
-    const teamNamePlus = useRef(0);
-    const teamNameMinus = useRef(0);
+    const gameNamePlus = useRef(0);
+    const gameNameMinus = useRef(0);
     const sidePlus = useRef(0);
     const sideMinus = useRef(0);
     const positionPlus = useRef(0);
@@ -59,14 +62,23 @@ const Games = () => {
     const lengthPlus = useRef(0);
     const lengthMinus = useRef(0);
 
+    const getGames = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/games")
+            const jsonData = await response.json();
+            setGames(jsonData)
+            setOriginalGames(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
+        setGames(originalGames)
         let inputArr = []                   //**IMPORTANT User's inputs
-        let filterArr = ['User', 'Game']              //**IMPORTANT, User's Filters */
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        let filterArr = []              //**IMPORTANT, User's Filters */
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -76,7 +88,6 @@ const Games = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -88,11 +99,57 @@ const Games = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'date':
+                    setGames(games.filter(game => String(game.date).slice(0, 10) == inputArr[i]))
+                    break;
+                case 'playername':
+                    setGames(games.filter(game => game.playername == inputArr[i]))
+                    break;
+                case 'teamname':
+                    setGames(games.filter(game => game.teamname == inputArr[i]))
+                    break;
+                case 'side':
+                    setGames(games.filter(game => game.side == inputArr[i]))
+                    break;
+                case 'position':
+                    setGames(games.filter(game => game.position == inputArr[i]))
+                    break;
+                case 'champion':
+                    setGames(games.filter(game => game.champion == inputArr[i]))
+                    break;
+                case 'result':
+                    setGames(games.filter(game => game.result == inputArr[i]))
+                    break;
+                case 'kills':
+                    setGames(games.filter(game => game.kills == inputArr[i]))
+                    break;
+                case 'deaths':
+                    setGames(games.filter(game => game.deaths == inputArr[i]))
+                    break;
+                case 'assists':
+                    setGames(games.filter(game => game.assists == inputArr[i]))
+                    break;
+                case 'firstdragon':
+                    setGames(games.filter(game => game.firstdragon == inputArr[i]))
+                    break;
+                case 'firstherald':
+                    setGames(games.filter(game => game.firstherald == inputArr[i]))
+                    break;
+                case 'firsttower':
+                    setGames(games.filter(game => game.firsttower == inputArr[i]))
+                    break;
+                case 'golddiffat15':
+                    setGames(games.filter(game => game.golddiffat15 == inputArr[i]))
+                    break;
+                case 'xpdiffat15':
+                    setGames(games.filter(game => game.xpdiffat15 == inputArr[i]))
+                    break;
+                case 'gamelength':
+                    setGames(games.filter(game => game.gamelength == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -177,6 +234,10 @@ const Games = () => {
         }
     };
 
+    useEffect(() => {
+        getGames()
+    },[])
+
     //HTML 
     return (
         <Fragment>
@@ -189,7 +250,6 @@ const Games = () => {
                 {/*Search bars */}
                 <div class="players">
                 <h1> Games </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -227,20 +287,15 @@ const Games = () => {
                                         <i ref={datePlus} class= "bi-plus-square-fill"></i>
                                         <i ref={dateMinus} class= "unchecked bi bi-square"></i><span>Date</span></a>
                                     </li>
-                                    
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Date", dateMinus, datePlus)}>
-                                        <i ref={datePlus} class= "bi-plus-square-fill"></i>
-                                        <i ref={dateMinus} class= "unchecked bi bi-square"></i><span>Date</span></a>
-                                    </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("PlayerName", playerNameMinus, playerNamePlus)}>
                                         <i ref={playerNamePlus} class="bi-plus-square-fill"></i>
                                         <i ref={playerNameMinus} class="unchecked bi bi-square"></i><span>Player Name</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("TeamName", teamNameMinus, teamNamePlus)}>
-                                        <i ref={teamNamePlus} class="bi-plus-square-fill"></i>
-                                        <i ref={teamNameMinus}class="unchecked bi bi-square"></i><span>Team Name</span></a>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("gameName", gameNameMinus, gameNamePlus)}>
+                                        <i ref={gameNamePlus} class="bi-plus-square-fill"></i>
+                                        <i ref={gameNameMinus}class="unchecked bi bi-square"></i><span>game Name</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Side", sideMinus, sidePlus)}>
@@ -290,7 +345,7 @@ const Games = () => {
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("FirstTower", fTowerMinus, fTowerPlus)}>
                                         <i ref={fTowerPlus} class="bi-plus-square-fill"></i>
-                                        <i ref={fTowerMinus} class="unchecked bi bi-square"></i> <span>First Turret</span></a>
+                                        <i ref={fTowerMinus} class="unchecked bi bi-square"></i><span>First Turret</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("GoldDiffAt15", gd15Minus, gd15Plus)}>
@@ -307,8 +362,6 @@ const Games = () => {
                                         <i ref={lengthPlus} class="bi-plus-square-fill"></i>
                                         <i ref={lengthMinus} class="unchecked bi bi-square"></i><span>Game Length</span></a>
                                     </li>
-
-
                                 </ul>
                             </div>
                         </div>
@@ -319,6 +372,7 @@ const Games = () => {
                             </button>
                         </div>
                     </div>
+                <p>5 entries represents a side, 10 entries represents a game</p>
                 {/*Table */}
                 <div class="table-responsive">
                     <table id ="Player_Table" class="table table-dark table-striped table sm" width="100%" cellspacing="0">
@@ -343,7 +397,26 @@ const Games = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* Body data goes here*/}
+                        {games.map(game => (
+                            <tr key={game.id}>
+                                <td>{String(game.date).slice(0, 10)}</td>
+                                <td>{game.playername}</td>
+                                <td>{game.teamname}</td>
+                                <td>{game.side}</td>
+                                <td>{game.position}</td>
+                                <td>{game.champion}</td>
+                                <td>{game.result}</td>
+                                <td>{game.kills}</td>
+                                <td>{game.deaths}</td>
+                                <td>{game.assists}</td>
+                                <td>{game.firstdragon}</td>
+                                <td>{game.firstherald}</td>
+                                <td>{game.firsttower}</td>
+                                <td>{game.golddiffat15}</td>
+                                <td>{game.xpdiffat15}</td>
+                                <td>{game.gamelength}</td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>

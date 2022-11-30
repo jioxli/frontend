@@ -11,7 +11,6 @@ const EditGame = () => {
             data-bs-toggle="modal"
             data-bs-target="#gEditModal"
           >
-            <i class="bi bi-file-earmark-plus-fill"></i>
             Edit
           </button>
     

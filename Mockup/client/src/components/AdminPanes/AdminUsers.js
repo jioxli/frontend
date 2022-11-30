@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect
+ } 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -11,12 +13,15 @@ import AddUser from "./DataHandlers/AddUser";
 import EditUser from "./DataHandlers/EditUser";
 
 const SearchResults = {
-    typeFilter: [],         //**IMPORTANT** User's filters
+    typeFilter: [],         //**IMPORTANT** Account's filters
     thirdFilterRefs: []
 }
 
 
-const AdminUsers = () => {
+const AdminAccounts = () => {
+
+    const [accounts, setAccounts] = useState([])
+    const [originalAccounts, setOriginalAccounts] = useState([])
 
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
@@ -26,8 +31,6 @@ const AdminUsers = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const aidPlus = useRef(0);
     const aidMinus = useRef(0);
@@ -38,14 +41,23 @@ const AdminUsers = () => {
     const isAdminPlus = useRef(0);
     const isAdminMinus = useRef(0);
 
+    const getAccounts = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/accounts")
+            const jsonData = await response.json();
+            setAccounts(jsonData)
+            setOriginalAccounts(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []                            //**IMPORTANT User's inputs
-        let filterArr = ['Admin', 'Account']             //**IMPORTANT, User's Filters
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        setAccounts(originalAccounts)
+        let inputArr = []                            //**IMPORTANT Account's inputs
+        let filterArr = []                          //**IMPORTANT, Account's Filters
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -55,7 +67,6 @@ const AdminUsers = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -67,11 +78,21 @@ const AdminUsers = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'aid':
+                    setAccounts(accounts.filter(account => account.aid == inputArr[i]))
+                    break;
+                case 'username':
+                    setAccounts(accounts.filter(account => account.username == inputArr[i]))
+                    break;
+                case 'password':
+                    setAccounts(accounts.filter(account => account.password == inputArr[i]))
+                    break;
+                case 'isadmin':
+                    setAccounts(accounts.filter(account => String(account.isadmin) == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -156,6 +177,10 @@ const AdminUsers = () => {
         }
     };
 
+    useEffect(() => {
+        getAccounts()
+    },[])
+
     //HTML 
     return (
         <Fragment>
@@ -167,14 +192,13 @@ const AdminUsers = () => {
             >
                 {/*Search bars */}
                 <div class="data">
-                <h1> Users </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
+                <h1> Accounts </h1>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
                             value = {input1} 
                             class="form-control" 
-                            aria-label="Recipient's username" 
+                            aria-label="Recipient's Accountname" 
                             aria-describedby="basic-addon2" 
                             placeholder={holder1} 
                             onChange={e => setInput1(e.target.value)}/>
@@ -182,7 +206,7 @@ const AdminUsers = () => {
                             type="text" 
                             value = {input2} 
                             class= {textClass2} 
-                            aria-label="Recipient's username" 
+                            aria-label="Recipient's Accountname" 
                             aria-describedby="basic-addon2" 
                             placeholder={holder2} 
                             onChange={e => setInput2(e.target.value)}/>
@@ -190,7 +214,7 @@ const AdminUsers = () => {
                             type="text" 
                             value = {input3} 
                             class={textClass3}
-                            aria-label="Recipient's username" 
+                            aria-label="Recipient's Accountname" 
                             aria-describedby="basic-addon2" 
                             placeholder={holder3} 
                             onChange={e => setInput3(e.target.value)}/>
@@ -207,9 +231,9 @@ const AdminUsers = () => {
                                         <i ref={aidMinus} class= "unchecked bi bi-square"></i><span>AID</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Username", nameMinus, namePlus)}>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("Accountname", nameMinus, namePlus)}>
                                         <i ref={namePlus} class= "bi-plus-square-fill"></i>
-                                        <i ref={nameMinus} class= "unchecked bi bi-square"></i><span>Username</span></a>
+                                        <i ref={nameMinus} class= "unchecked bi bi-square"></i><span>Accountname</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("Password", passMinus, passPlus)}>
@@ -240,7 +264,7 @@ const AdminUsers = () => {
                     <thead>
                         <tr>
                             <th scope="col">AID</th>
-                            <th scope="col">Username</th>
+                            <th scope="col">username</th>
                             <th scope="col">Password</th>            
                             <th scope="col">Is Admin</th>
                             <th scope="col">Edit</th>
@@ -248,7 +272,21 @@ const AdminUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Body data goes here*/}
+                    {accounts.map(account => (
+                            <tr key={account.aid}>
+                                <td>{account.aid}</td>
+                                <td>{account.username}</td>
+                                <td>{account.password}</td>
+                                <td>{String(account.isadmin)}</td>
+                                <td><EditUser /></td> {/*game={game}*/}
+                                <td>
+                                <button 
+                                    className = "btn btn-danger" >
+                                    {/*onClick={() => deleteTodo(todo.todo_id)}>*/}
+                                    Delete</button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>
@@ -257,4 +295,4 @@ const AdminUsers = () => {
     )
 };
 
-export default AdminUsers;
+export default AdminAccounts;

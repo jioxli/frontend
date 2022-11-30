@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect
+ } 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -17,6 +19,9 @@ const SearchResults = {
 
 const AdminPlayers = () => {
 
+    const [players, setPlayers] = useState([])
+    const [originalPlayers, setOriginalPlayers] = useState([])
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -25,8 +30,6 @@ const AdminPlayers = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const pidPlus = useRef(0);
     const pidMinus = useRef(0);
@@ -45,14 +48,23 @@ const AdminPlayers = () => {
     const gd10Plus = useRef(0);
     const gd10Minus = useRef(0);
 
+    const getPlayers = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/players")
+            const jsonData = await response.json();
+            setPlayers(jsonData)
+            setOriginalPlayers(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
+        setPlayers(originalPlayers)
         let inputArr = []                               //**IMPORTANT User's inputs
-        let filterArr = ['Admin', 'Player']              //**IMPORTANT, User's Filters 
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        let filterArr = []              //**IMPORTANT, User's Filters 
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -62,7 +74,6 @@ const AdminPlayers = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -74,11 +85,33 @@ const AdminPlayers = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'pid':
+                    setPlayers(players.filter(player => player.pid == inputArr[i]))
+                    break;
+                case 'ign':
+                    setPlayers(players.filter(player => player.ign == inputArr[i]))
+                    break;
+                case 'tid':
+                    setPlayers(players.filter(player => player.tid == inputArr[i]))
+                    break;
+                case 'team':
+                    setPlayers(players.filter(player => player.team == inputArr[i]))
+                    break;
+                case 'position':
+                    setPlayers(players.filter(player => player.position == inputArr[i]))
+                    break;
+                case 'kda':
+                    setPlayers(players.filter(player => player.kda == inputArr[i]))
+                    break;
+                case 'kp':
+                    setPlayers(players.filter(player => player.kp == inputArr[i]))
+                    break;
+                case 'gd10':
+                    setPlayers(players.filter(player => player.gd10 == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -163,6 +196,9 @@ const AdminPlayers = () => {
         }
     };
 
+    useEffect(() => {
+        getPlayers()
+    },[])
     //HTML 
     return (
         <Fragment>
@@ -175,7 +211,6 @@ const AdminPlayers = () => {
             >
                 <div class="data">
                 <h1> Players </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -276,54 +311,25 @@ const AdminPlayers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Doublelift</td>
-                            <td>11</td>
-                            <td>Retired</td>
-                            <td>LCS</td>
-                            <td>ADC</td>
-                            <td>0.1</td>
-                            <td>-1000</td>
-                            <td><EditPlayer style={{opacity:1}}/></td>
-                            <td><button className = "btn btn-danger" > Delete </button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Faker</td>
-                            <td>10</td>
-                            <td>T1</td>
-                            <td>LCK</td>
-                            <td>Mid</td>
-                            <td>10.0</td>
-                            <td>1000</td>
-                            <td><EditPlayer style={{opacity:1}}/></td>
-                            <td><button className = "btn btn-danger" > Delete </button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Core JJ</td>
-                            <td>6</td>
-                            <td>Team Liquid</td>
-                            <td>LCS</td>
-                            <td>Support</td>
-                            <td>3.2</td>
-                            <td>420</td>
-                            <td><EditPlayer style={{opacity:1}}/></td>
-                            <td><button className = "btn btn-danger" > Delete </button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Canyon</td>
-                            <td>3</td>
-                            <td>Damwon Kia</td>
-                            <td>LCK</td>
-                            <td>Jungle</td>
-                            <td>5.2</td>
-                            <td>1342</td>
-                            <td><EditPlayer style={{opacity:1}}/></td>
-                            <td><button className = "btn btn-danger" > Delete </button></td>
-                        </tr>
+                    {players.map(player => (
+                            <tr key={player.pid}>
+                                <td>{player.pid}</td>
+                                <td>{player.ign}</td>
+                                <td>{player.tid}</td>
+                                <td>{player.team}</td>
+                                <td>{player.position}</td>
+                                <td>{player.kda}</td>
+                                <td>{player.kp}</td>
+                                <td>{player.gd10}</td>
+                                <td><EditPlayer /></td> {/*game={game}*/}
+                                <td>
+                                <button 
+                                    className = "btn btn-danger" >
+                                    {/*onClick={() => deleteTodo(todo.todo_id)}>*/}
+                                    Delete</button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>

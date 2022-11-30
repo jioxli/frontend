@@ -16,6 +16,7 @@ const SearchResults = {
 const Players = () => {
 
     const [players, setPlayers] = useState([])
+    const [originalPlayers, setOriginalPlayers] = useState([])
 
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
@@ -25,8 +26,6 @@ const Players = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const ignPlus = useRef(0);
     const ignMinus = useRef(0);
@@ -42,24 +41,22 @@ const Players = () => {
     const gd10Minus = useRef(0);
 
     //**EXECUTES WHEN SEARCH IS PRESSED**
-    const getPlayers = async(filterArr, inputArr) => {
+    const getPlayers = async() => {
         try {
-            const body = {filterArr, inputArr}
             const response = await fetch("http://localhost:5000/players")
             const jsonData = await response.json();
             setPlayers(jsonData)
-
+            setOriginalPlayers(JSON.parse(JSON.stringify(jsonData)))
         } catch(err) {
             console.error(err.message)
         }
     }
-    const findResults = () => {
-        let inputArr = []                               //**IMPORTANT User's inputs
+
+    const findResults = async() => {
+        setPlayers(originalPlayers)
+        let inputArr = []               //**IMPORTANT User's inputs
         let filterArr = []              //**IMPORTANT, User's Filters 
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -69,7 +66,6 @@ const Players = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -81,11 +77,28 @@ const Players = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        console.log("begin filter")
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'ign':
+                    setPlayers(players.filter(player => player.ign == inputArr[i]))
+                    break;
+                case 'team':
+                    setPlayers(players.filter(player => player.team == inputArr[i]))
+                    break;
+                case 'position':
+                    setPlayers(players.filter(player => player.position == inputArr[i]))
+                    break;
+                case 'kda':
+                    setPlayers(players.filter(player => player.kda == inputArr[i]))
+                    break;
+                case 'kp':
+                    setPlayers(players.filter(player => player.kp == inputArr[i]))
+                    break;
+                case 'gd10':
+                    setPlayers(players.filter(player => player.gd10 == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -123,6 +136,7 @@ const Players = () => {
     const updateSearch = (prvLen, index) => {
         if(SearchResults.typeFilter.length === 0) {
             setHolder1('Select First Filter')
+            setInput1('')
             return
         } else if(SearchResults.typeFilter.length === 1) {
             setHolder1(`Enter ${SearchResults.typeFilter[0]}`)
@@ -171,7 +185,7 @@ const Players = () => {
     };
 
     useEffect(() => {
-        getPlayers([], [])
+        getPlayers()
     },[])
 
     //HTML 
@@ -186,7 +200,6 @@ const Players = () => {
                 {/*Search bars */}
                 <div class="players">
                 <h1> Players </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 

@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect
+} 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -15,6 +17,9 @@ const SearchResults = {
 
 const Teams = () => {
 
+    const [teams, setTeams] = useState([])
+    const [originalTeams, setOriginalTeams] = useState([])
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -23,8 +28,6 @@ const Teams = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const namePlus = useRef(0);
     const nameMinus = useRef(0);
@@ -43,14 +46,23 @@ const Teams = () => {
     const gd15Plus = useRef(0);
     const gd15Minus = useRef(0);
 
+    const getTeams = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/teams")
+            const jsonData = await response.json();
+            setTeams(jsonData)
+            setOriginalTeams(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
+        setTeams(originalTeams)
         let inputArr = []                            //**IMPORTANT User's inputs
-        let filterArr = ['User', 'Team']             //**IMPORTANT, User's Filters
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        let filterArr = []             //**IMPORTANT, User's Filters
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -60,7 +72,6 @@ const Teams = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -72,11 +83,33 @@ const Teams = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'name':
+                    setTeams(teams.filter(team => team.name == inputArr[i]))
+                    break;
+                case 'games':
+                    setTeams(teams.filter(team => team.games == inputArr[i]))
+                    break;
+                case 'wins':
+                    setTeams(teams.filter(team => team.wins == inputArr[i]))
+                    break;
+                case 'losses':
+                    setTeams(teams.filter(team => team.losses == inputArr[i]))
+                    break;
+                case 'fdragon':
+                    setTeams(teams.filter(team => team.fdragon == inputArr[i]))
+                    break;
+                case 'fturret':
+                    setTeams(teams.filter(team => team.fturret == inputArr[i]))
+                    break;
+                case 'fherald':
+                    setTeams(teams.filter(team => team.gd15 == inputArr[i]))
+                    break;
+                case 'gd15':
+                    setTeams(teams.filter(team => team.gd15 == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -161,6 +194,10 @@ const Teams = () => {
         }
     };
 
+    useEffect(() => {
+        getTeams()
+    },[])
+
     //HTML 
     return (
         <Fragment>
@@ -173,7 +210,6 @@ const Teams = () => {
                 {/*Search bars */}
                 <div class="teams">
                 <h1> Teams </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -227,24 +263,24 @@ const Teams = () => {
                                         <i ref={lossesMinus} class="unchecked bi bi-square"></i><span>Losses</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("First Dragon", fDragonMinus, fDragonPlus)}>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("FDragon", fDragonMinus, fDragonPlus)}>
                                         <i ref={fDragonPlus} class="bi-plus-square-fill"></i>
                                         <i ref={fDragonMinus} class="unchecked bi bi-square"></i><span>First Dragon</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("First Turret", fTurretMinus, fTurretPlus)}>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("FTuret", fTurretMinus, fTurretPlus)}>
                                         <i ref={fTurretPlus} class="bi-plus-square-fill"></i>
                                         <i ref={fTurretMinus} class="unchecked bi bi-square"></i><span>First Turret</span></a>
                                     </li>
 
-                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("First Herald", fHeraldMinus, fHeraldPlus)}>
+                                    <li><a class="dropdown-item" onClick= {() => toggleFilter("FHerald", fHeraldMinus, fHeraldPlus)}>
                                         <i ref={fHeraldPlus} class="bi-plus-square-fill"></i>
                                         <i ref={fHeraldMinus} class="unchecked bi bi-square"></i><span>First Herald</span></a>
                                     </li>
 
                                     <li><a class="dropdown-item" onClick= {() => toggleFilter("GD15", gd15Minus, gd15Plus)}>
                                         <i ref={gd15Plus} class="bi-plus-square-fill"></i>
-                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i><span>GD10</span></a>
+                                        <i ref={gd15Minus} class="unchecked bi bi-square"></i><span>GD15</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -271,7 +307,18 @@ const Teams = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Body data goes here*/}
+                    {teams.map(team => (
+                            <tr key={team.tid}>
+                                <td>{team.name}</td>
+                                <td>{team.games}</td>
+                                <td>{team.wins}</td>
+                                <td>{team.losses}</td>
+                                <td>{team.fdragon}</td>
+                                <td>{team.fturret}</td>
+                                <td>{team.fherald}</td>
+                                <td>{team.gd15}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>

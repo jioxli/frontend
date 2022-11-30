@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect
+ } 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -19,6 +21,9 @@ const SearchResults = {
 
 const AdminGames = () => {
 
+    const [games, setGames] = useState([])
+    const [originalGames, setOriginalGames] = useState([])
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -27,8 +32,6 @@ const AdminGames = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const idPlus = useRef(0);
     const idMinus = useRef(0);
@@ -71,14 +74,22 @@ const AdminGames = () => {
     const lengthPlus = useRef(0);
     const lengthMinus = useRef(0);
 
+    const getGames = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/games")
+            const jsonData = await response.json();
+            setGames(jsonData)
+            setOriginalGames(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
         let inputArr = []                   //**IMPORTANT User's inputs
-        let filterArr = ['Admin', 'Game']              //**IMPORTANT, User's Filters */
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        let filterArr = []              //**IMPORTANT, User's Filters */
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -88,7 +99,6 @@ const AdminGames = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -102,9 +112,69 @@ const AdminGames = () => {
         }
         console.log(inputArr)
         console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'id':
+                    setGames(games.filter(game => game.id == inputArr[i]))
+                    break;
+                case 'gid':
+                    setGames(games.filter(game => game.gid == inputArr[i]))
+                    break;
+                case 'date':
+                    setGames(games.filter(game => String(game.date).slice(0, 10) == inputArr[i]))
+                    break;
+                case 'pid':
+                    setGames(games.filter(game => game.pid == inputArr[i]))
+                    break;
+                case 'playername':
+                    setGames(games.filter(game => game.playername == inputArr[i]))
+                    break;
+                case 'tid':
+                    setGames(games.filter(game => game.tid == inputArr[i]))
+                    break;
+                case 'teamname':
+                    setGames(games.filter(game => game.teamname == inputArr[i]))
+                    break;
+                case 'side':
+                    setGames(games.filter(game => game.side == inputArr[i]))
+                    break;
+                case 'position':
+                    setGames(games.filter(game => game.position == inputArr[i]))
+                    break;
+                case 'champion':
+                    setGames(games.filter(game => game.champion == inputArr[i]))
+                    break;
+                case 'result':
+                    setGames(games.filter(game => game.result == inputArr[i]))
+                    break;
+                case 'kills':
+                    setGames(games.filter(game => game.kills == inputArr[i]))
+                    break;
+                case 'deaths':
+                    setGames(games.filter(game => game.deaths == inputArr[i]))
+                    break;
+                case 'assists':
+                    setGames(games.filter(game => game.assists == inputArr[i]))
+                    break;
+                case 'firstdragon':
+                    setGames(games.filter(game => game.firstdragon == inputArr[i]))
+                    break;
+                case 'firstherald':
+                    setGames(games.filter(game => game.firstherald == inputArr[i]))
+                    break;
+                case 'firsttower':
+                    setGames(games.filter(game => game.firsttower == inputArr[i]))
+                    break;
+                case 'golddiffat15':
+                    setGames(games.filter(game => game.golddiffat15 == inputArr[i]))
+                    break;
+                case 'xpdiffat15':
+                    setGames(games.filter(game => game.xpdiffat15 == inputArr[i]))
+                    break;
+                case 'gamelength':
+                    setGames(games.filter(game => game.gamelength == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -189,6 +259,10 @@ const AdminGames = () => {
         }
     };
 
+    useEffect(() => {
+        getGames()
+    },[])
+
     //HTML 
     return (
         <Fragment>
@@ -202,7 +276,6 @@ const AdminGames = () => {
                 {/*Search bars */}
                 <div class="players">
                 <h1> Games </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -375,12 +448,42 @@ const AdminGames = () => {
                                 <th scope="col">GD15</th> 
                                 <th scope="col">XPD15</th> 
                                 <th scope="col">Length</th> 
-                                <th scope="col">Add</th> 
+                                <th scope="col">Edit</th> 
                                 <th scope="col">Delete</th> 
                             </tr>
                         </thead>
                         <tbody>
-                            {/* Body data goes here*/}
+                            {games.map(game => (
+                            <tr key={game.id}>
+                                <td>{game.id}</td>
+                                <td>{game.gid}</td>
+                                <td>{String(game.date).slice(0, 10)}</td>
+                                <td>{game.pid}</td>
+                                <td>{game.playername}</td>
+                                <td>{game.tid}</td>
+                                <td>{game.teamname}</td>
+                                <td>{game.side}</td>
+                                <td>{game.position}</td>
+                                <td>{game.champion}</td>
+                                <td>{game.result}</td>
+                                <td>{game.kills}</td>
+                                <td>{game.deaths}</td>
+                                <td>{game.assists}</td>
+                                <td>{game.firstdragon}</td>
+                                <td>{game.firstherald}</td>
+                                <td>{game.firsttower}</td>
+                                <td>{game.golddiffat15}</td>
+                                <td>{game.xpdiffat15}</td>
+                                <td>{game.gamelength}</td>
+                                <td><EditGame /></td> {/*game={game}*/}
+                                <td>
+                                <button 
+                                    className = "btn btn-danger" >
+                                    {/*onClick={() => deleteTodo(todo.todo_id)}>*/}
+                                    Delete</button>
+                                </td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>

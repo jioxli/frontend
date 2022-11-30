@@ -1,7 +1,9 @@
 import React, { 
     Fragment, 
     useRef, 
-    useState } 
+    useState,
+    useEffect 
+} 
 from "react"
 
 //you will need to run npm-install framer-motion
@@ -9,6 +11,7 @@ import {motion} from "framer-motion"
 import ImportTeam from './DataHandlers/ImportTeam';
 
 import AddTeam from "./DataHandlers/AddTeam";
+import EditTeam from "./DataHandlers/EditTeam";
 
 const SearchResults = {
     typeFilter: [],         //**IMPORTANT** User's filters
@@ -18,6 +21,9 @@ const SearchResults = {
 
 const AdminTeams = () => {
 
+    const [teams, setTeams] = useState([])
+    const [originalTeams, setOriginalTeams] = useState([])
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -26,8 +32,6 @@ const AdminTeams = () => {
     const[input3, setInput3] = useState('')
     const[textClass2, setTextClass2] = useState('form-control hide')
     const[textClass3, setTextClass3] = useState('form-control hide')
-    const[incorrect, setIncorrect] = useState('Please select a filter(s)')
-    const[incorrectClass, setIncorrectClass] = useState('hide')
 
     const tidPlus = useRef(0);
     const tidMinus = useRef(0);
@@ -48,14 +52,23 @@ const AdminTeams = () => {
     const gd15Plus = useRef(0);
     const gd15Minus = useRef(0);
 
+    const getTeams = async() => {
+        try {
+            const response = await fetch("http://localhost:5000/teams")
+            const jsonData = await response.json();
+            setTeams(jsonData)
+            setOriginalTeams(JSON.parse(JSON.stringify(jsonData)))
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
     //**EXECUTES WHEN SEARCH IS PRESSED**
     const findResults = () => {
-        let inputArr = []                            //**IMPORTANT User's inputs
-        let filterArr = ['Admin', 'Team']             //**IMPORTANT, User's Filters
-        if(SearchResults.typeFilter.length === 0) {
-            setIncorrectClass('show');
-            return
-        } else if(SearchResults.typeFilter.length === 1) {
+        setTeams(originalTeams)
+        let inputArr = []              //**IMPORTANT User's inputs
+        let filterArr = []             //**IMPORTANT, User's Filters
+        if(SearchResults.typeFilter.length === 1) {
             inputArr.push(input1);
         } else if(SearchResults.typeFilter.length === 2) {
             inputArr.push(input1);
@@ -65,7 +78,6 @@ const AdminTeams = () => {
             inputArr.push(input2);
             inputArr.push(input3);
         }
-        setIncorrectClass('hide');
         //handling if some inputs are empty
         let curIndex = 0
         let originalLen = inputArr.length
@@ -77,11 +89,36 @@ const AdminTeams = () => {
                 inputArr.splice(curIndex, 1);
             }
         }
-        console.log(inputArr)
-        console.log(filterArr)
-        if(curIndex === 0) {
-            setIncorrectClass('show')
-            setIncorrect('Please enter values in the text boxes')
+        for(let i = 0; i < filterArr.length; i++) {
+            switch (filterArr[i]) {
+                case 'tid':
+                    setTeams(teams.filter(team => team.tid == inputArr[i]))
+                    break;
+                case 'name':
+                    setTeams(teams.filter(team => team.name == inputArr[i]))
+                    break;
+                case 'games':
+                    setTeams(teams.filter(team => team.games == inputArr[i]))
+                    break;
+                case 'wins':
+                    setTeams(teams.filter(team => team.wins == inputArr[i]))
+                    break;
+                case 'losses':
+                    setTeams(teams.filter(team => team.losses == inputArr[i]))
+                    break;
+                case 'fdragon':
+                    setTeams(teams.filter(team => team.fdragon == inputArr[i]))
+                    break;
+                case 'fturret':
+                    setTeams(teams.filter(team => team.fturret == inputArr[i]))
+                    break;
+                case 'fherald':
+                    setTeams(teams.filter(team => team.gd15 == inputArr[i]))
+                    break;
+                case 'gd15':
+                    setTeams(teams.filter(team => team.gd15 == inputArr[i]))
+                    break;
+            }
         }
     }
 
@@ -166,6 +203,10 @@ const AdminTeams = () => {
         }
     };
 
+    useEffect(() => {
+        getTeams()
+    },[])
+    
     //HTML 
     return (
         <Fragment>
@@ -179,7 +220,6 @@ const AdminTeams = () => {
                 {/*Search bars */}
                 <div class="data">
                 <h1> Teams </h1>
-                <font color="red" class={incorrectClass}>{incorrect} </font>
                     <div class="input-group mb-3">
                         <input 
                             type="text" 
@@ -288,7 +328,26 @@ const AdminTeams = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Body data goes here*/}
+                    {teams.map(team => (
+                            <tr key={team.tid}>
+                                <td>{team.tid}</td>
+                                <td>{team.name}</td>
+                                <td>{team.games}</td>
+                                <td>{team.wins}</td>
+                                <td>{team.losses}</td>
+                                <td>{team.fdragon}</td>
+                                <td>{team.fturret}</td>
+                                <td>{team.fherald}</td>
+                                <td>{team.gd15}</td>
+                                <td><EditTeam /></td> {/*game={game}*/}
+                                <td>
+                                <button 
+                                    className = "btn btn-danger" >
+                                    {/*onClick={() => deleteTodo(todo.todo_id)}>*/}
+                                    Delete</button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>
