@@ -20,6 +20,12 @@ const Games = () => {
     const [games, setGames] = useState([])
     const [originalGames, setOriginalGames] = useState([])
 
+    const [kda, setKda] = useState(0)
+    const [avgGD15, setAvgGD15] = useState(0)
+    const [avgXPD15, setAvgXPD15] = useState(0)
+    const [avgGameLength, setAvgGameLength] = useState(0)
+    const [winRate, setWinRate] = useState(0)
+
     const[holder1, setHolder1] = useState('Select First Filter')
     const[holder2, setHolder2] = useState('Select Second Filter')
     const[holder3, setHolder3] = useState('Select Third Filter')
@@ -151,7 +157,25 @@ const Games = () => {
                     break;
             }
         }
+
+        let killsAssists = 0, deaths = 0, gd15 = 0, xpd15 = 0, gameLength = 0, winr = 0; 
+        for(let i = 0; i < games.length; i++){
+            killsAssists += games[i]["kills"] + games[i]["assists"];
+            deaths += games[i]["deaths"];
+            gd15 += games[i]["golddiffat15"];
+            xpd15 += games[i]["xpdiffat15"];
+            gameLength += games[i]["gamelength"];
+            winr += games[i]["result"];
+
+        }
+        setKda((killsAssists/deaths).toFixed(2));
+        setAvgGD15((gd15/games.length).toFixed(2));
+        setAvgXPD15((xpd15/games.length).toFixed(2));
+        setAvgGameLength((gameLength/games.length).toFixed(2));
+        setWinRate((100*winr/games.length).toFixed(2));
     }
+
+
 
     //Handles the filters and the dropdown box
     const toggleFilter = (myFilter, minusRef, plusRef) => {
@@ -420,6 +444,11 @@ const Games = () => {
                         </tbody>
                     </table>
                 </div>
+                <p>KDA: {kda}</p>
+                <p>Gold Difference at 15: {avgGD15}</p>
+                <p>Experience Difference at 15: {avgXPD15}</p>
+                <p>Average game length (seconds): {avgGameLength}</p>
+                <p>Win rate: {winRate}</p>
                 </div>
             </motion.div>
         </Fragment>
