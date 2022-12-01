@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react"
+import React, { Fragment, useState } from "react"
 import { 
   Link, 
 } from "react-router-dom"
@@ -17,7 +17,8 @@ const NavBar = () => {
 
     const[loginNav, setLoginNav] = useState('nav-link')
     const[infoNav, setInfoNav] = useState('nav-link')
-    const[statNav, setStatNav] = useState('nav-link')
+    const[teamStatNav, setTeamStatNav] = useState('nav-link')
+    const[gameStatNav, setGameStatNav] = useState('nav-link')
     const[dataNav, setDataNav] = useState('nav-link')
     const[contactNav, setContactNav] = useState('nav-link')
     const[accountInfoNav, setAccountInfoNav] = useState('nav-link hide')
@@ -53,8 +54,10 @@ const NavBar = () => {
         setInfoNav('nav-link')
       } else if (myNav.currentNav === 3) {
         setDataNav('nav-link')
-      } else if (myNav.currentNav == 5) {
-        setStatNav('nav-link')
+      } else if (myNav.currentNav === 5) {
+        setTeamStatNav('nav-link')
+      } else if (myNav.currentNav === 6) {
+        setGameStatNav('nav-link')
       }
       else {
         setContactNav('nav-link')
@@ -72,8 +75,10 @@ const NavBar = () => {
         setDataNav('nav-link active')
       } else if (column === 4) {
         setContactNav('nav-link active')
-      } else if (column == 5) {
-        setStatNav('nav-link active')
+      } else if (column === 5) {
+        setTeamStatNav('nav-link active')
+      } else if (column === 6) {
+        setGameStatNav('nav-link active')
       }
 
     }
@@ -98,7 +103,8 @@ const NavBar = () => {
                   <li> <Link to="/loginPage" class = {loginNav} onClick={() => updateNavbar(1)}> Login </Link></li>
                   <li> <Link to="/accountinfo" class = {accountInfoNav} onClick={() => updateNavbar(1)}> <font color = {color}> {username} </font> </Link></li>
                   <li> <Link to="/information" class = {infoNav} onClick={() => updateNavbar(2)}> Information </Link></li>
-                  <li> <Link to="/teamstats" class = {statNav} onClick={() => updateNavbar(5)}> Team Stats </Link></li>
+                  <li> <Link to="/teamstats" class = {teamStatNav} onClick={() => updateNavbar(5)}> Team Stats </Link></li>
+                  <li> <Link to="/gamestats" class = {gameStatNav} onClick={() => updateNavbar(6)}> Game Stats </Link></li>
                   <li> <Link to="/databases" class = {dataNav} onClick={() => updateNavbar(3)}> Databases </Link></li>
                   <li> <Link to="/contact" class = {contactNav} onClick={() => updateNavbar(4)}> Contact </Link></li>
                 </div>

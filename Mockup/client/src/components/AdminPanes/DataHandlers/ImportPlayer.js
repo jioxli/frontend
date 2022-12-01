@@ -39,7 +39,7 @@ const ImportPlayer = () => {
                 try {
                     const body = { ign, tid, team, position, kda, 
                     kp, GD10 };
-                    const response = await fetch("http://localhost:5000/players",
+                    const response = await fetch("http://10.128.161.72:5000/players",
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

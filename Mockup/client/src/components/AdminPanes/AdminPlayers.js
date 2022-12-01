@@ -50,7 +50,7 @@ const AdminPlayers = () => {
 
     const getPlayers = async() => {
         try {
-            const response = await fetch("http://localhost:5000/players")
+            const response = await fetch("http://10.128.161.72:5000/players")
             const jsonData = await response.json();
             setPlayers(jsonData)
             setOriginalPlayers(JSON.parse(JSON.stringify(jsonData)))

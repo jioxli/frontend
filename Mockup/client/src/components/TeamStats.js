@@ -18,13 +18,11 @@ const TeamStats = () => {
 
     const [teamData, setTeamData] = useState([]);
 
-    const [rerender, setRerender] = useState(0);
-
-    const [data, setData] = useState([]);
+    const [selectXaxis, setSelectXaxis] = useState("fdragon");
 
     const getTeamData = async() => {
         try {
-            const response = await fetch("http://localhost:5000/teams");
+            const response = await fetch("http://10.128.161.72:5000/teams");
             const jsonData = await response.json();
 
             setTeamData(jsonData);
@@ -32,23 +30,12 @@ const TeamStats = () => {
             console.error(err.message);
         }
     };
-    function addData(){
-        setData([]);
-        for(let i = 0; i < teamData.length; i++){
-            let pair = {
-                x: teamData[i]["fdragon"],
-                y: teamData[i]["wins"]/teamData[i]["games"]
-            };
-            setData(data.push(pair));
-        }
-        console.log(data);
 
-        setRerender(rerender + 1);
+    function onXAxisChange(e){
+        setSelectXaxis(e.target.value)
     }
 
     useEffect( ()=> {
-        getTeamData();
-        
     }, []);
 
     return (
@@ -62,22 +49,29 @@ const TeamStats = () => {
             <h2>Team Stats</h2>
             <button
                 type="button"
-                class="btn btn-primary"
-                onClick={addData}>
-                Add Data
+                className="btn btn-primary"
+                onClick={getTeamData}>
+                Get Data
             </button>
-            <div class="centered">
+            <div className="centered">
             <ScatterChart width={400} height={400}>
                 <CartesianGrid/>
-                <XAxis type="number" dataKey={"x"}>
-                    <Label value="x axis" position="insideBottom" fill='white' offset={0} />
+                <XAxis type="number" dataKey={selectXaxis}>
                 </XAxis>
-                <YAxis type="number" dataKey={"y"}>
+                <YAxis type="number" dataKey={"winrate"}>
                 <Label value="Win Rate" position="insideLeft" angle={-90} fill='white'/>
                 </YAxis>
-                <Scatter data={data} fill="white" />
+                <Scatter data={teamData} fill="white" />
             </ScatterChart>
             </div>
+            <select name="xaxis" id="xaxis" value={selectXaxis} onChange={onXAxisChange}>
+                <optgroup label="Select a dataframe column">
+                            <option value="fdragon">First Dragon</option>
+                            <option value="fherald">First Herald</option>
+                            <option value="fturret">First Turret</option>
+                            <option value="gd15">GD15</option>
+                </optgroup>
+            </select>
         </Fragment>
         </motion.div>
     )

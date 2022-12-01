@@ -15,6 +15,7 @@ import Contacts from "./Contacts"
 import Login from "./AccountPanes/Login"
 import Information from "./Information"
 import TeamStats from "./TeamStats"
+import GameStats from "./GameStats"
 import Register from "./AccountPanes/Register"
 import LoginPage from "./AccountPanes/LoginPage"
 import AccountInfo from "./AccountPanes/AccountInfo"
@@ -50,6 +51,7 @@ const AnimatedRefs = () => {
         </Route>
         <Route path='/information' element={<Information />} />
         <Route path='/teamstats' element={<TeamStats />} />
+        <Route path='/gamestats' element={<GameStats />} />
         <Route path='/databases' element={<Databases />} >
           <Route index element={<Games />} />
           <Route path='games' element={<Games />} />

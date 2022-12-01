@@ -27,7 +27,7 @@ const Contacts = () => {
                 <div class="card-body">
                     <h5 class="card-title">Ian Oxley</h5>
                     <p class="card-text">The most poggiest programmer I've ever met.</p>
-                    <a href="https://ianoxleybiopage.com/" target="blank_" class="btn btn-primary">Website</a>
+                    <a href="https://github.com/IOxley02" target="blank_" class="btn btn-primary">GitHub</a>
                 </div>
                 </div>
             </div>
@@ -35,8 +35,8 @@ const Contacts = () => {
                 <div class="card text-white bg-dark mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Joshua Tenorio</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p class="card-text">The second-most poggiest programmer I've ever met.</p>
+                    <a href="https://github.com/joshtenorio" target="blank_" class="btn btn-primary">GitHub</a>
                 </div>
                 </div>
             </div>

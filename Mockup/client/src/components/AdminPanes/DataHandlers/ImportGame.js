@@ -50,7 +50,7 @@ const ImportGame = () => {
                         teamname, side, position, champion, result, kills,
                         deaths, assists, firstdragon, firstherald, firsttower,
                         golddiffat15, xpdiffat15, gamelength };
-                    const response = await fetch("http://localhost:5000/games",
+                    const response = await fetch("http://10.128.161.72:5000/games",
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

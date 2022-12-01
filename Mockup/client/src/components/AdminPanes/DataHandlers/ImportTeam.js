@@ -40,7 +40,7 @@ const ImportTeam = () => {
                 try {
                     const body = { name, games, wins, losses, fDragon, 
                     fTurret, fHerald, GD15 };
-                    const response = await fetch("http://localhost:5000/teams",
+                    const response = await fetch("http://10.128.161.72:5000/teams",
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

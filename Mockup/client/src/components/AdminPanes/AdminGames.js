@@ -76,7 +76,7 @@ const AdminGames = () => {
 
     const getGames = async() => {
         try {
-            const response = await fetch("http://localhost:5000/games")
+            const response = await fetch("http://10.128.161.72:5000/games")
             const jsonData = await response.json();
             setGames(jsonData)
             setOriginalGames(JSON.parse(JSON.stringify(jsonData)))

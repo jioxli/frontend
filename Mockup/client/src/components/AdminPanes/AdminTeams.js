@@ -54,7 +54,7 @@ const AdminTeams = () => {
 
     const getTeams = async() => {
         try {
-            const response = await fetch("http://localhost:5000/teams")
+            const response = await fetch("http://10.128.161.72:5000/teams")
             const jsonData = await response.json();
             setTeams(jsonData)
             setOriginalTeams(JSON.parse(JSON.stringify(jsonData)))

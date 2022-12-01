@@ -43,7 +43,7 @@ const AdminAccounts = () => {
 
     const getAccounts = async() => {
         try {
-            const response = await fetch("http://localhost:5000/accounts")
+            const response = await fetch("http://10.128.161.72:5000/accounts")
             const jsonData = await response.json();
             setAccounts(jsonData)
             setOriginalAccounts(JSON.parse(JSON.stringify(jsonData)))

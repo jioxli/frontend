@@ -22,7 +22,13 @@ const Home = () => {
         variants={pageTransition}
         >
             <h2>NashorStats</h2>
-            owo uwu owo
+            <p>
+                Welcome to NashorStats, a high-quality source for League of Legends eSports stats.
+                Users can use the data here to quickly analyze various game data.
+            </p> 
+            <p>
+                Data used here is provided by <a href="https://oracleselixir.com/" target="blank_">Oracles Elixir</a>.
+            </p>
         </motion.div>
     )
 };
